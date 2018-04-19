@@ -1,26 +1,7 @@
 
 #import "UIColorPickerView.h"
-
-@implementation UIImage(Pattern)
-
-+ (UIImage *)checkerboard;
-{
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(8, 8), YES, 0);
-    [UIColor.whiteColor setFill];
-    UIRectFill(CGRectMake(0, 0, 8, 8));
-    [[UIColor colorWithWhite:0.75 alpha:1] setFill];
-    UIRectFill(CGRectMake(0, 0, 4, 4));
-    UIRectFill(CGRectMake(4, 4, 4, 4));
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
-}
-
-@end
-
-@implementation UIColor(Pattern)
-+ (UIColor *)transparencyPattern; { return [UIColor colorWithPatternImage:UIImage.checkerboard]; }
-@end
+#import "UIColor+Extras.h"
+#import "UIImage+Extras.h"
 
 typedef NS_ENUM(NSUInteger, TouchArea) {
     TouchAreaHue,
@@ -48,7 +29,7 @@ typedef NS_ENUM(NSUInteger, TouchArea) {
 
 @implementation UIColorPickerView
 
-static const CGFloat kHueBarWidth = 40;
+static const CGFloat kHueBarWidth = 30;
 
 - (instancetype)init; { if (!(self = [super init])) { return nil; } return [self commonInit]; }
 - (instancetype)initWithCoder:(NSCoder *)aDecoder; { if (!(self = [super initWithCoder:aDecoder])) { return nil; } return [self commonInit]; }
@@ -95,8 +76,16 @@ static const CGFloat kHueBarWidth = 40;
     self.saturationBrightnessIndicator.layer.shadowRadius = 1;
     self.saturationBrightnessIndicator.layer.shadowOffset = CGSizeZero;
     [self addSubview:self.hueIndicator];
-    [self addSubview:self.saturationBrightnessIndicator];
     [self addSubview:self.alphaIndicator];
+    [self addSubview:self.saturationBrightnessIndicator];
+    
+    self.layer.shadowColor = UIColor.blackColor.CGColor;
+    self.layer.shadowOpacity = 1;
+    self.layer.shadowRadius = 3;
+    self.layer.shadowOffset = CGSizeZero;
+    self.layer.cornerRadius = 3;
+    self.contentMode = UIViewContentModeRedraw;
+    
     return self;
 }
 

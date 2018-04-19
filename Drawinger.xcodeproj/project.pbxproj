@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6387E4DF2089245900A9CC9E /* UIColor+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 6387E4DE2089245900A9CC9E /* UIColor+Extras.m */; };
+		6387E4E22089248E00A9CC9E /* UIImage+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 6387E4E12089248E00A9CC9E /* UIImage+Extras.m */; };
 		63FDFC8E2088367000E1BD30 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFC8D2088367000E1BD30 /* AppDelegate.m */; };
 		63FDFC912088367000E1BD30 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFC902088367000E1BD30 /* ViewController.m */; };
 		63FDFC942088367000E1BD30 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63FDFC922088367000E1BD30 /* Main.storyboard */; };
@@ -18,6 +20,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6387E4DD2089245900A9CC9E /* UIColor+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extras.h"; sourceTree = "<group>"; };
+		6387E4DE2089245900A9CC9E /* UIColor+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extras.m"; sourceTree = "<group>"; };
+		6387E4E02089248E00A9CC9E /* UIImage+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extras.h"; sourceTree = "<group>"; };
+		6387E4E12089248E00A9CC9E /* UIImage+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extras.m"; sourceTree = "<group>"; };
 		63FDFC892088367000E1BD30 /* Drawinger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Drawinger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63FDFC8C2088367000E1BD30 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		63FDFC8D2088367000E1BD30 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -72,6 +78,10 @@
 				63FDFCA3208836A000E1BD30 /* UIDrawingView.m */,
 				63FDFCA520883AE000E1BD30 /* UIColorPickerView.h */,
 				63FDFCA620883AE000E1BD30 /* UIColorPickerView.m */,
+				6387E4DD2089245900A9CC9E /* UIColor+Extras.h */,
+				6387E4DE2089245900A9CC9E /* UIColor+Extras.m */,
+				6387E4E02089248E00A9CC9E /* UIImage+Extras.h */,
+				6387E4E12089248E00A9CC9E /* UIImage+Extras.m */,
 				63FDFC922088367000E1BD30 /* Main.storyboard */,
 				63FDFC952088367300E1BD30 /* Assets.xcassets */,
 				63FDFC972088367300E1BD30 /* LaunchScreen.storyboard */,
@@ -151,8 +161,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6387E4DF2089245900A9CC9E /* UIColor+Extras.m in Sources */,
 				63FDFCA720883AE000E1BD30 /* UIColorPickerView.m in Sources */,
 				63FDFC912088367000E1BD30 /* ViewController.m in Sources */,
+				6387E4E22089248E00A9CC9E /* UIImage+Extras.m in Sources */,
 				63FDFC9C2088367300E1BD30 /* main.m in Sources */,
 				63FDFC8E2088367000E1BD30 /* AppDelegate.m in Sources */,
 				63FDFCA4208836A000E1BD30 /* UIDrawingView.m in Sources */,
