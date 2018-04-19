@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		6387E4DF2089245900A9CC9E /* UIColor+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 6387E4DE2089245900A9CC9E /* UIColor+Extras.m */; };
 		6387E4E22089248E00A9CC9E /* UIImage+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 6387E4E12089248E00A9CC9E /* UIImage+Extras.m */; };
+		63AA096720894F3400829B03 /* UIBezierPath+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AA096620894F3400829B03 /* UIBezierPath+Extras.m */; };
+		63AA096A20894F9400829B03 /* UITouch+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AA096920894F9400829B03 /* UITouch+Extras.m */; };
 		63FDFC8E2088367000E1BD30 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFC8D2088367000E1BD30 /* AppDelegate.m */; };
 		63FDFC912088367000E1BD30 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFC902088367000E1BD30 /* ViewController.m */; };
 		63FDFC942088367000E1BD30 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63FDFC922088367000E1BD30 /* Main.storyboard */; };
@@ -24,6 +26,10 @@
 		6387E4DE2089245900A9CC9E /* UIColor+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extras.m"; sourceTree = "<group>"; };
 		6387E4E02089248E00A9CC9E /* UIImage+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extras.h"; sourceTree = "<group>"; };
 		6387E4E12089248E00A9CC9E /* UIImage+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extras.m"; sourceTree = "<group>"; };
+		63AA096520894F3400829B03 /* UIBezierPath+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+Extras.h"; sourceTree = "<group>"; };
+		63AA096620894F3400829B03 /* UIBezierPath+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+Extras.m"; sourceTree = "<group>"; };
+		63AA096820894F9400829B03 /* UITouch+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITouch+Extras.h"; sourceTree = "<group>"; };
+		63AA096920894F9400829B03 /* UITouch+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITouch+Extras.m"; sourceTree = "<group>"; };
 		63FDFC892088367000E1BD30 /* Drawinger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Drawinger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63FDFC8C2088367000E1BD30 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		63FDFC8D2088367000E1BD30 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -82,6 +88,10 @@
 				6387E4DE2089245900A9CC9E /* UIColor+Extras.m */,
 				6387E4E02089248E00A9CC9E /* UIImage+Extras.h */,
 				6387E4E12089248E00A9CC9E /* UIImage+Extras.m */,
+				63AA096520894F3400829B03 /* UIBezierPath+Extras.h */,
+				63AA096620894F3400829B03 /* UIBezierPath+Extras.m */,
+				63AA096820894F9400829B03 /* UITouch+Extras.h */,
+				63AA096920894F9400829B03 /* UITouch+Extras.m */,
 				63FDFC922088367000E1BD30 /* Main.storyboard */,
 				63FDFC952088367300E1BD30 /* Assets.xcassets */,
 				63FDFC972088367300E1BD30 /* LaunchScreen.storyboard */,
@@ -163,10 +173,12 @@
 			files = (
 				6387E4DF2089245900A9CC9E /* UIColor+Extras.m in Sources */,
 				63FDFCA720883AE000E1BD30 /* UIColorPickerView.m in Sources */,
+				63AA096A20894F9400829B03 /* UITouch+Extras.m in Sources */,
 				63FDFC912088367000E1BD30 /* ViewController.m in Sources */,
 				6387E4E22089248E00A9CC9E /* UIImage+Extras.m in Sources */,
 				63FDFC9C2088367300E1BD30 /* main.m in Sources */,
 				63FDFC8E2088367000E1BD30 /* AppDelegate.m in Sources */,
+				63AA096720894F3400829B03 /* UIBezierPath+Extras.m in Sources */,
 				63FDFCA4208836A000E1BD30 /* UIDrawingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

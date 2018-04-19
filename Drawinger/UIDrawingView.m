@@ -1,20 +1,7 @@
 
 #import "UIDrawingView.h"
-#import <objc/runtime.h>
-
-@interface UIBezierPath (AssociatedObject)
-@property (nonatomic, strong) UIColor *strokeColor;
-@end
-
-@implementation UIBezierPath (AssociatedObject)
-@dynamic strokeColor;
-- (void)setStrokeColor:(UIColor *)color; { objc_setAssociatedObject(self, @selector(strokeColor), color, OBJC_ASSOCIATION_RETAIN_NONATOMIC); }
-- (id)strokeColor; { return objc_getAssociatedObject(self, @selector(strokeColor)); }
-@end
-
-@implementation NSObject(Extras)
-- (NSString *)identifier; { return [NSString stringWithFormat:@"%p", self]; }
-@end
+#import "UIBezierPath+Extras.h"
+#import "UITouch+Extras.h"
 
 @interface UIDrawingView()
 @property (nonatomic) NSMutableDictionary <NSString *, UIBezierPath *> *touchPaths;
@@ -25,8 +12,7 @@
 
 - (void)didMoveToSuperview {
     [super didMoveToSuperview];
-    self.touchPaths = NSMutableDictionary.new;
-    self.drawingPaths = NSMutableArray.new;
+    [self reset];
     
     self.drawingColor = UIColor.blackColor;
     self.lineCapStyle = kCGLineCapRound;
@@ -42,14 +28,12 @@
     for (UITouch *touch in touches) {
         UIBezierPath *path = UIBezierPath.new;
         path.strokeColor = self.drawingColor;
-        path.lineCapStyle =self.lineCapStyle;
+        path.lineCapStyle = self.lineCapStyle;
         path.lineJoinStyle = self.lineJoinStyle;
         path.lineWidth = self.lineWidth;
         
-        CGPoint point = [touch locationInView:self];
-        [path moveToPoint:point];
-        
-        [self addPoint:point toPath:path previousPoint:point];
+        [path moveToPoint:touch.location];
+        [self addPoint:touch.location toPath:path previousPoint:touch.location];
 
         self.touchPaths[touch.identifier] = path;
         [self.drawingPaths addObject:path];
@@ -58,8 +42,7 @@
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     for (UITouch *touch in touches) {
-        [self addPoint:[touch locationInView:self] toPath:self.touchPaths[touch.identifier] previousPoint:[touch previousLocationInView:self]];
-
+        [self addPoint:touch.location toPath:self.touchPaths[touch.identifier] previousPoint:touch.previousLocation];
     }
 }
 
@@ -99,6 +82,7 @@
 
 - (void)reset;
 {
+    self.touchPaths = NSMutableDictionary.new;
     self.drawingPaths = NSMutableArray.new;
     [self setNeedsDisplay];
 }
