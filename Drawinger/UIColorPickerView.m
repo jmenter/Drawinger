@@ -22,7 +22,6 @@
 + (UIColor *)transparencyPattern; { return [UIColor colorWithPatternImage:UIImage.checkerboard]; }
 @end
 
-
 typedef NS_ENUM(NSUInteger, TouchArea) {
     TouchAreaHue,
     TouchAreaSaturationBrightness,
@@ -43,12 +42,17 @@ typedef NS_ENUM(NSUInteger, TouchArea) {
 @property (nonatomic) UIView *hueIndicator;
 @property (nonatomic) UIView *saturationBrightnessIndicator;
 @property (nonatomic) UIView *alphaIndicator;
+
 @property (nonatomic) TouchArea touchArea;
 @end
 
 @implementation UIColorPickerView
 
 static const CGFloat kHueBarWidth = 40;
+
+- (instancetype)init; { if (!(self = [super init])) { return nil; } return [self commonInit]; }
+- (instancetype)initWithCoder:(NSCoder *)aDecoder; { if (!(self = [super initWithCoder:aDecoder])) { return nil; } return [self commonInit]; }
+- (instancetype)initWithFrame:(CGRect)frame; { if (!(self = [super initWithFrame:frame])) { return nil; } return [self commonInit]; }
 
 - (instancetype)commonInit;
 {
@@ -78,25 +82,8 @@ static const CGFloat kHueBarWidth = 40;
     self.multipleTouchEnabled = NO;
     self.userInteractionEnabled = YES;
     
-    self.hueIndicator = [UIView.alloc initWithFrame:CGRectMake(-1.5, 0, kHueBarWidth + 3, 7)];
-    self.hueIndicator.backgroundColor = UIColor.clearColor;
-    self.hueIndicator.layer.borderColor = UIColor.whiteColor.CGColor;
-    self.hueIndicator.layer.borderWidth = 2;
-    self.hueIndicator.layer.cornerRadius = 2;
-    self.hueIndicator.layer.shadowColor = UIColor.blackColor.CGColor;
-    self.hueIndicator.layer.shadowOpacity = 1;
-    self.hueIndicator.layer.shadowRadius = 1;
-    self.hueIndicator.layer.shadowOffset = CGSizeZero;
-
-    self.alphaIndicator = [UIView.alloc initWithFrame:CGRectMake(-1.5, 0, kHueBarWidth + 3, 7)];
-    self.alphaIndicator.backgroundColor = UIColor.clearColor;
-    self.alphaIndicator.layer.borderColor = UIColor.whiteColor.CGColor;
-    self.alphaIndicator.layer.borderWidth = 2;
-    self.alphaIndicator.layer.cornerRadius = 2;
-    self.alphaIndicator.layer.shadowColor = UIColor.blackColor.CGColor;
-    self.alphaIndicator.layer.shadowOpacity = 1;
-    self.alphaIndicator.layer.shadowRadius = 1;
-    self.alphaIndicator.layer.shadowOffset = CGSizeZero;
+    self.hueIndicator = [self createIndicatorView];
+    self.alphaIndicator = [self createIndicatorView];
     
     self.saturationBrightnessIndicator = [UIView.alloc initWithFrame:CGRectMake(kHueBarWidth, 0, 20, 20)];
     self.saturationBrightnessIndicator.backgroundColor = UIColor.clearColor;
@@ -113,9 +100,19 @@ static const CGFloat kHueBarWidth = 40;
     return self;
 }
 
-- (instancetype)init; { if (!(self = [super init])) { return nil; } return [self commonInit]; }
-- (instancetype)initWithCoder:(NSCoder *)aDecoder; { if (!(self = [super initWithCoder:aDecoder])) { return nil; } return [self commonInit]; }
-- (instancetype)initWithFrame:(CGRect)frame; { if (!(self = [super initWithFrame:frame])) { return nil; } return [self commonInit]; }
+- (UIView *)createIndicatorView;
+{
+    UIView *newView = [UIView.alloc initWithFrame:CGRectMake(-1.5, 0, kHueBarWidth + 3, 7)];
+    newView.backgroundColor = UIColor.clearColor;
+    newView.layer.borderColor = UIColor.whiteColor.CGColor;
+    newView.layer.borderWidth = 2;
+    newView.layer.cornerRadius = 2;
+    newView.layer.shadowColor = UIColor.blackColor.CGColor;
+    newView.layer.shadowOpacity = 1;
+    newView.layer.shadowRadius = 1;
+    newView.layer.shadowOffset = CGSizeZero;
+    return newView;
+}
 
 - (UIColor *)currentColor;
 {
@@ -125,36 +122,31 @@ static const CGFloat kHueBarWidth = 40;
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
     CGFloat xLocation = [touches.anyObject locationInView:self].x;
-    if (xLocation < kHueBarWidth) {
-        self.touchArea = TouchAreaHue;
-    } else if (xLocation > self.bounds.size.width - kHueBarWidth) {
-        self.touchArea = TouchAreaAlpha;
-    } else {
-        self.touchArea = TouchAreaSaturationBrightness;
-    }
+    self.touchArea = xLocation < kHueBarWidth ? TouchAreaHue : xLocation > self.bounds.size.width - kHueBarWidth ? TouchAreaAlpha : TouchAreaSaturationBrightness;
     [self touchesMoved:touches withEvent:event];
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
     CGFloat clampedY = MIN(MAX([touches.anyObject locationInView:self].y, 0), self.bounds.size.height);
+    CGFloat clampedYNormalized = clampedY / self.bounds.size.height;
     switch (self.touchArea) {
         case TouchAreaHue: {
-            self.currentHue = clampedY / self.bounds.size.height;
+            self.currentHue = clampedYNormalized;
             self.hueIndicator.center = CGPointMake(kHueBarWidth / 2.f, clampedY);
             [self setNeedsDisplay];
            break;
         }
         case TouchAreaAlpha: {
-            self.currentAlpha = clampedY / self.bounds.size.height;
+            self.currentAlpha = clampedYNormalized;
             self.alphaIndicator.center = CGPointMake(self.bounds.size.width - ( kHueBarWidth / 2.f), clampedY);
             break;
         }
         case TouchAreaSaturationBrightness:
         default: {
-            CGFloat clampedX = MIN(MAX([touches.anyObject locationInView:self].x, kHueBarWidth), self.bounds.size.width);
+            CGFloat clampedX = MIN(MAX([touches.anyObject locationInView:self].x, kHueBarWidth), self.bounds.size.width - kHueBarWidth);
             self.currentSaturation = (clampedX - kHueBarWidth) / (self.bounds.size.width - kHueBarWidth);
-            self.currentBrightness = 1.f - (clampedY / self.bounds.size.height);
+            self.currentBrightness = 1.f - clampedYNormalized;
             self.saturationBrightnessIndicator.center = CGPointMake(clampedX, clampedY);
             [self setNeedsDisplay];
            break;
