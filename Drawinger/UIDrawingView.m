@@ -79,7 +79,7 @@
     self.lineCapStyle = kCGLineCapRound;
     self.lineJoinStyle = kCGLineJoinRound;
     self.lineWidth = 2.f;
-   [self setNeedsDisplay];
+    [self setNeedsDisplay];
 }
 
 

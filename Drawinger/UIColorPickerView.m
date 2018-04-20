@@ -96,7 +96,7 @@ static const CGFloat kHueBarWidth = 30;
     [self addSubview:self.alphaIndicator];
     [self addSubview:self.saturationBrightnessIndicator];
     [self addSubview:self.valuesLabel];
-
+    
     self.layer.shadowColor = UIColor.blackColor.CGColor;
     self.layer.shadowOpacity = 1;
     self.layer.shadowRadius = 3;
@@ -145,14 +145,14 @@ static const CGFloat kHueBarWidth = 30;
             self.hueIndicator.center = CGPointMake(kHueBarWidth / 2.f, clampedY);
             [self setNeedsDisplay];
             self.valuesLabel.text = [NSString stringWithFormat:@"hue: %i°", (int)(self.currentHue * 360.f)];
-           break;
+            break;
         }
         case TouchAreaAlpha: {
             clampedX = self.bounds.size.width - ( kHueBarWidth / 2.f);
             self.currentAlpha = clampedYNormalized;
             self.alphaIndicator.center = CGPointMake(self.bounds.size.width - ( kHueBarWidth / 2.f), clampedY);
             self.valuesLabel.text = [NSString stringWithFormat:@"alpha: %i%%", (int)(self.currentAlpha * 100.f)];
-           break;
+            break;
         }
         case TouchAreaSaturationBrightness:
         default: {
@@ -161,8 +161,10 @@ static const CGFloat kHueBarWidth = 30;
             self.currentBrightness = 1.f - clampedYNormalized;
             self.saturationBrightnessIndicator.center = CGPointMake(clampedX, clampedY);
             [self setNeedsDisplay];
-            self.valuesLabel.text = [NSString stringWithFormat:@"h: %i° • s: %i%%\nb: %i%% • a: %i%%", (int)(self.currentHue * 360.f), (int)(self.currentSaturation * 100.f),  (int)(self.currentBrightness * 100.f),  (int)(self.currentAlpha * 100.f)];
-           break;
+            self.valuesLabel.text = [NSString stringWithFormat:@"h: %i° • s: %i%%\nb: %i%% • a: %i%%",
+                                     (int)(self.currentHue * 360.f), (int)(self.currentSaturation * 100.f),
+                                     (int)(self.currentBrightness * 100.f),  (int)(self.currentAlpha * 100.f)];
+            break;
         }
     }
     self.valuesLabel.center = CGPointMake(clampedX, clampedY - 40);
@@ -218,7 +220,7 @@ static const CGFloat kHueBarWidth = 30;
     self.alphaLayer.colors = @[(id)[UIColor colorWithHue:self.currentHue saturation:self.currentSaturation brightness:self.currentBrightness alpha:0].CGColor,
                                (id)[UIColor colorWithHue:self.currentHue saturation:self.currentSaturation brightness:self.currentBrightness alpha:1].CGColor];
     [self.alphaLayer renderInContext:UIGraphicsGetCurrentContext()];
-
+    
 }
 
 @end
