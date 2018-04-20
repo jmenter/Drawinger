@@ -57,6 +57,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		63AA096B208959A000829B03 /* Extra Categories */ = {
+			isa = PBXGroup;
+			children = (
+				6387E4DD2089245900A9CC9E /* UIColor+Extras.h */,
+				6387E4DE2089245900A9CC9E /* UIColor+Extras.m */,
+				6387E4E02089248E00A9CC9E /* UIImage+Extras.h */,
+				6387E4E12089248E00A9CC9E /* UIImage+Extras.m */,
+				63AA096520894F3400829B03 /* UIBezierPath+Extras.h */,
+				63AA096620894F3400829B03 /* UIBezierPath+Extras.m */,
+				63AA096820894F9400829B03 /* UITouch+Extras.h */,
+				63AA096920894F9400829B03 /* UITouch+Extras.m */,
+			);
+			path = "Extra Categories";
+			sourceTree = "<group>";
+		};
 		63FDFC802088367000E1BD30 = {
 			isa = PBXGroup;
 			children = (
@@ -84,14 +99,7 @@
 				63FDFCA3208836A000E1BD30 /* UIDrawingView.m */,
 				63FDFCA520883AE000E1BD30 /* UIColorPickerView.h */,
 				63FDFCA620883AE000E1BD30 /* UIColorPickerView.m */,
-				6387E4DD2089245900A9CC9E /* UIColor+Extras.h */,
-				6387E4DE2089245900A9CC9E /* UIColor+Extras.m */,
-				6387E4E02089248E00A9CC9E /* UIImage+Extras.h */,
-				6387E4E12089248E00A9CC9E /* UIImage+Extras.m */,
-				63AA096520894F3400829B03 /* UIBezierPath+Extras.h */,
-				63AA096620894F3400829B03 /* UIBezierPath+Extras.m */,
-				63AA096820894F9400829B03 /* UITouch+Extras.h */,
-				63AA096920894F9400829B03 /* UITouch+Extras.m */,
+				63AA096B208959A000829B03 /* Extra Categories */,
 				63FDFC922088367000E1BD30 /* Main.storyboard */,
 				63FDFC952088367300E1BD30 /* Assets.xcassets */,
 				63FDFC972088367300E1BD30 /* LaunchScreen.storyboard */,

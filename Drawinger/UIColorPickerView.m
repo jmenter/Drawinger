@@ -2,6 +2,7 @@
 #import "UIColorPickerView.h"
 #import "UIColor+Extras.h"
 #import "UIImage+Extras.h"
+#import "UITouch+Extras.h"
 
 typedef NS_ENUM(NSUInteger, TouchArea) {
     TouchAreaHue,
@@ -24,6 +25,7 @@ typedef NS_ENUM(NSUInteger, TouchArea) {
 @property (nonatomic) UIView *saturationBrightnessIndicator;
 @property (nonatomic) UIView *alphaIndicator;
 
+@property (nonatomic) UILabel *valuesLabel;
 @property (nonatomic) TouchArea touchArea;
 @end
 
@@ -37,10 +39,25 @@ static const CGFloat kHueBarWidth = 30;
 
 - (instancetype)commonInit;
 {
+    self.currentHue = 0;
+    self.currentSaturation = 0.5;
+    self.currentBrightness = 0.75;
+    self.currentAlpha = 1;
     self.saturationLayer = CAGradientLayer.layer;
     self.saturationLayer.masksToBounds = YES;
     self.saturationLayer.startPoint = CGPointMake(0, 0);
     self.saturationLayer.endPoint = CGPointMake(1, 0);
+    
+    self.valuesLabel = [UILabel.alloc initWithFrame:CGRectMake(0, 0, 100, 30)];
+    self.valuesLabel.textAlignment = NSTextAlignmentCenter;
+    self.valuesLabel.font = [UIFont boldSystemFontOfSize:9];
+    self.valuesLabel.numberOfLines = 0;
+    self.valuesLabel.layer.shadowColor = UIColor.blackColor.CGColor;
+    self.valuesLabel.layer.shadowOffset = CGSizeZero;
+    self.valuesLabel.layer.shadowRadius = 3;
+    self.valuesLabel.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
+    self.valuesLabel.textColor = [UIColor colorWithWhite:0.1 alpha:1.0];
+    self.valuesLabel.alpha = 0;
     
     self.brightnessLayer = CAGradientLayer.layer;
     self.brightnessLayer.masksToBounds = YES;
@@ -78,12 +95,12 @@ static const CGFloat kHueBarWidth = 30;
     [self addSubview:self.hueIndicator];
     [self addSubview:self.alphaIndicator];
     [self addSubview:self.saturationBrightnessIndicator];
-    
+    [self addSubview:self.valuesLabel];
+
     self.layer.shadowColor = UIColor.blackColor.CGColor;
     self.layer.shadowOpacity = 1;
     self.layer.shadowRadius = 3;
     self.layer.shadowOffset = CGSizeZero;
-    self.layer.cornerRadius = 3;
     self.contentMode = UIViewContentModeRedraw;
     
     return self;
@@ -110,6 +127,7 @@ static const CGFloat kHueBarWidth = 30;
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
+    [UIView animateWithDuration:0.2 animations:^{ self.valuesLabel.alpha = 1; }];
     CGFloat xLocation = [touches.anyObject locationInView:self].x;
     self.touchArea = xLocation < kHueBarWidth ? TouchAreaHue : xLocation > self.bounds.size.width - kHueBarWidth ? TouchAreaAlpha : TouchAreaSaturationBrightness;
     [self touchesMoved:touches withEvent:event];
@@ -117,38 +135,66 @@ static const CGFloat kHueBarWidth = 30;
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
+    CGFloat clampedX = 0;
     CGFloat clampedY = MIN(MAX([touches.anyObject locationInView:self].y, 0), self.bounds.size.height);
     CGFloat clampedYNormalized = clampedY / self.bounds.size.height;
     switch (self.touchArea) {
         case TouchAreaHue: {
+            clampedX = kHueBarWidth / 2.f;
             self.currentHue = clampedYNormalized;
             self.hueIndicator.center = CGPointMake(kHueBarWidth / 2.f, clampedY);
             [self setNeedsDisplay];
+            self.valuesLabel.text = [NSString stringWithFormat:@"hue: %i°", (int)(self.currentHue * 360.f)];
            break;
         }
         case TouchAreaAlpha: {
+            clampedX = self.bounds.size.width - ( kHueBarWidth / 2.f);
             self.currentAlpha = clampedYNormalized;
             self.alphaIndicator.center = CGPointMake(self.bounds.size.width - ( kHueBarWidth / 2.f), clampedY);
-            break;
+            self.valuesLabel.text = [NSString stringWithFormat:@"alpha: %i%%", (int)(self.currentAlpha * 100.f)];
+           break;
         }
         case TouchAreaSaturationBrightness:
         default: {
-            CGFloat clampedX = MIN(MAX([touches.anyObject locationInView:self].x, kHueBarWidth), self.bounds.size.width - kHueBarWidth);
-            self.currentSaturation = (clampedX - kHueBarWidth) / (self.bounds.size.width - kHueBarWidth);
+            clampedX = MIN(MAX(touches.anyObject.location.x, kHueBarWidth), self.bounds.size.width - kHueBarWidth);
+            self.currentSaturation = (clampedX - kHueBarWidth) / (self.bounds.size.width - kHueBarWidth - kHueBarWidth);
             self.currentBrightness = 1.f - clampedYNormalized;
             self.saturationBrightnessIndicator.center = CGPointMake(clampedX, clampedY);
             [self setNeedsDisplay];
+            self.valuesLabel.text = [NSString stringWithFormat:@"h: %i° • s: %i%%\nb: %i%% • a: %i%%", (int)(self.currentHue * 360.f), (int)(self.currentSaturation * 100.f),  (int)(self.currentBrightness * 100.f),  (int)(self.currentAlpha * 100.f)];
            break;
         }
     }
-    self.saturationBrightnessIndicator.layer.borderColor = [self.currentColor colorWithAlphaComponent:1.0].CGColor;
-    self.saturationBrightnessIndicator.layer.shadowColor = [UIColor colorWithWhite:1.f - self.currentBrightness alpha:1.0].CGColor;
+    self.valuesLabel.center = CGPointMake(clampedX, clampedY - 40);
+    [self configureSaturationBrightnessIndicator];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
     [self touchesMoved:touches withEvent:event];
     [self.colorPickerDelegate colorPickerView:self didPickColor:self.currentColor];
+    [UIView animateWithDuration:0.2 animations:^{ self.valuesLabel.alpha = 0; }];
+}
+
+- (void)layoutSubviews;
+{
+    [super layoutSubviews];
+    [self alignIndicatorsWithValues];
+}
+
+- (void)alignIndicatorsWithValues;
+{
+    self.hueIndicator.center = CGPointMake(kHueBarWidth / 2.f, self.currentHue * self.bounds.size.height);
+    self.saturationBrightnessIndicator.center = CGPointMake(kHueBarWidth + (self.currentSaturation * (self.bounds.size.width - kHueBarWidth - kHueBarWidth)),
+                                                            (1 - self.currentBrightness) * self.bounds.size.height);
+    self.alphaIndicator.center = CGPointMake(self.bounds.size.width - ( kHueBarWidth / 2.f), self.currentAlpha * self.bounds.size.height);
+    [self configureSaturationBrightnessIndicator];
+}
+
+- (void)configureSaturationBrightnessIndicator;
+{
+    self.saturationBrightnessIndicator.layer.borderColor = [self.currentColor colorWithAlphaComponent:1.0].CGColor;
+    self.saturationBrightnessIndicator.layer.shadowColor = [UIColor colorWithWhite:1.f - self.currentBrightness alpha:1.0].CGColor;
 }
 
 - (void)drawRect:(CGRect)rect;

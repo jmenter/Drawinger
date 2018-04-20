@@ -1,17 +1,13 @@
 
 #import <UIKit/UIKit.h>
-#import "UIColorPickerView.h"
 
-@interface UIDrawingView : UIView <UIColorPickerViewDelegate>
+@interface UIDrawingView : UIView
 
 @property (nonatomic) UIColor *drawingColor;
 @property CGLineCap lineCapStyle;
 @property CGLineJoin lineJoinStyle;
 @property CGFloat lineWidth;
 
-- (IBAction)setLineCapStyleAction:(UISegmentedControl *)sender;
-- (IBAction)setLineJoinStyleAction:(UISegmentedControl *)sender;
-- (IBAction)setLineWidthAction:(UISlider *)sender;
-- (IBAction)reset;
+- (void)reset;
 
 @end
