@@ -23,7 +23,7 @@
     self.multipleTouchEnabled = YES;
     self.contentMode = UIViewContentModeRedraw;
     self.backgroundColor = UIColor.clearColor;
-   self.max = MAX(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
+    self.max = MAX(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
     self.drawingStoreView = [UIImageView.alloc initWithFrame:CGRectMake(0, 0, self.max, self.max)];
     self.drawingStoreView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
     self.drawingStoreView.backgroundColor = UIColor.clearColor;
@@ -57,9 +57,9 @@
     for (UITouch *touch in touches) {
         [self addTouch:touch toPath:self.touchPaths[touch.identifier]];
         self.touchPaths[touch.identifier] = nil;
-        if (self.touchPaths.count == 0) {
-            [self commitPaths];
-        }
+    }
+    if (self.touchPaths.count == 0) {
+        [self commitPaths];
     }
 }
 
@@ -90,9 +90,7 @@
 
 - (void)addTouch:(UITouch *)touch toPath:(UIBezierPath *)path;
 {
-    CGPoint halfPrevious = CGPointMake((touch.previousLocation.x + touch.location.x) / 2.f,
-                                       (touch.previousLocation.y + touch.location.y) / 2.f);
-    [path addQuadCurveToPoint:halfPrevious controlPoint:touch.previousLocation];
+    [path addQuadCurveToPoint:touch.halfPreviousLocation controlPoint:touch.previousLocation];
     [self setNeedsDisplay];
 }
 

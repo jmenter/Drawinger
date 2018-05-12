@@ -21,4 +21,10 @@
     return [self previousLocationInView:self.view];
 }
 
+- (CGPoint)halfPreviousLocation;
+{
+    return CGPointMake((self.previousLocation.x + self.location.x) / 2.f,
+                       (self.previousLocation.y + self.location.y) / 2.f);;
+}
+
 @end
