@@ -32,75 +32,6 @@
     return self;
 }
 
-- (void)didMoveToSuperview;
-{
-    [super didMoveToSuperview];
-    [self.superview insertSubview:self.drawingStoreView belowSubview:self];
-}
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    for (UITouch *touch in touches) {
-        UIBezierPath *path = [self createPathAtPoint:touch.location];
-        [self addTouch:touch toPath:path];
-        self.touchPaths[touch.identifier] = path;
-        [self.drawingPaths addObject:path];
-    }
-}
-
-- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    for (UITouch *touch in touches) {
-        [self addTouch:touch toPath:self.touchPaths[touch.identifier]];
-    }
-}
-
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    for (UITouch *touch in touches) {
-        [self addTouch:touch toPath:self.touchPaths[touch.identifier]];
-        self.touchPaths[touch.identifier] = nil;
-    }
-    if (self.touchPaths.count == 0) {
-        [self commitPaths];
-    }
-}
-
-- (void)commitPaths;
-{
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.max, self.max), NO, 0);
-    if (self.drawingStore) {
-        [self.drawingStore drawAtPoint:CGPointZero];
-    }
-    [self drawRect:self.bounds];
-    self.drawingStore = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    self.drawingStoreView.image = self.drawingStore;
-    self.drawingPaths = NSMutableArray.new;
-}
-
-- (UIBezierPath *)createPathAtPoint:(CGPoint)point;
-{
-    UIBezierPath *path = UIBezierPath.new;
-    path.strokeColor = self.drawingColor;
-    path.lineCapStyle = self.lineCapStyle;
-    path.lineJoinStyle = self.lineJoinStyle;
-    path.lineWidth = self.lineWidth;
-    [path moveToPoint:point];
-    
-    return path;
-}
-
-- (void)addTouch:(UITouch *)touch toPath:(UIBezierPath *)path;
-{
-    [path addQuadCurveToPoint:touch.halfPreviousLocation controlPoint:touch.previousLocation];
-    [self setNeedsDisplay];
-}
-
-- (void)drawRect:(CGRect)rect {
-    for (UIBezierPath *path in self.drawingPaths) {
-        [path.strokeColor setStroke];
-        [path stroke];
-    }
-}
-
 - (void)reset;
 {
     self.touchPaths = NSMutableDictionary.new;
@@ -114,5 +45,62 @@
     [self setNeedsDisplay];
 }
 
+- (void)didMoveToSuperview;
+{
+    [super didMoveToSuperview];
+    [self.superview insertSubview:self.drawingStoreView belowSubview:self];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    for (UITouch *touch in touches) {
+        UIBezierPath *path = [UIBezierPath pathAtPoint:touch.location strokeColor:self.drawingColor
+                                          lineCapStyle:self.lineCapStyle lineJoinStyle:self.lineJoinStyle
+                                             lineWidth:self.lineWidth];
+        [self addTouch:touch toPath:path];
+        self.touchPaths[touch.identifier] = path;
+        [self.drawingPaths addObject:path];
+    }
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    for (UITouch *touch in touches) {
+        [self addTouch:touch toPath:self.touchPaths[touch.identifier]];
+    }
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self touchesMoved:touches withEvent:event];
+    for (UITouch *touch in touches) {
+        self.touchPaths[touch.identifier] = nil;
+    }
+    if (self.touchPaths.count == 0) {
+        [self commitPaths];
+    }
+}
+
+- (void)addTouch:(UITouch *)touch toPath:(UIBezierPath *)path;
+{
+    [path addQuadCurveToPoint:touch.halfPreviousLocation controlPoint:touch.previousLocation];
+    [self setNeedsDisplay];
+}
+
+- (void)commitPaths;
+{
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.max, self.max), NO, 0);
+    [self.drawingStore drawAtPoint:CGPointZero];
+    [self drawRect:self.bounds];
+    self.drawingStore = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    self.drawingStoreView.image = self.drawingStore;
+    self.drawingPaths = NSMutableArray.new;
+    [self setNeedsDisplay];
+}
+
+- (void)drawRect:(CGRect)rect {
+    for (UIBezierPath *path in self.drawingPaths) {
+        [path.strokeColor setStroke];
+        [path stroke];
+    }
+}
 
 @end

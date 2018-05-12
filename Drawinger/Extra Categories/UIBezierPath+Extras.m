@@ -16,4 +16,20 @@
     return objc_getAssociatedObject(self, @selector(strokeColor));
 }
 
++ (UIBezierPath *)pathAtPoint:(CGPoint)point
+                  strokeColor:(UIColor *)strokeColor
+                 lineCapStyle:(CGLineCap)lineCapStyle
+                lineJoinStyle:(CGLineJoin)lineJoinStyle
+                    lineWidth:(CGFloat)lineWidth;
+{
+    UIBezierPath *path = UIBezierPath.new;
+    path.strokeColor = strokeColor;
+    path.lineCapStyle = lineCapStyle;
+    path.lineJoinStyle = lineJoinStyle;
+    path.lineWidth = lineWidth;
+    [path moveToPoint:point];
+    
+    return path;
+}
+
 @end

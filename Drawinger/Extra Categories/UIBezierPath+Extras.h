@@ -5,4 +5,10 @@
 
 @property (nonatomic, strong) UIColor *strokeColor;
 
++ (UIBezierPath *)pathAtPoint:(CGPoint)point
+                  strokeColor:(UIColor *)strokeColor
+                 lineCapStyle:(CGLineCap)lineCapStyle
+                lineJoinStyle:(CGLineJoin)lineJoinStyle
+                    lineWidth:(CGFloat)lineWidth;
+
 @end

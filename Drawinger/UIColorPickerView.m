@@ -95,6 +95,8 @@ static const CGFloat kValueLabelTouchOffset = 50;
     self.saturationBrightnessIndicator.layer.shadowOpacity = 1;
     self.saturationBrightnessIndicator.layer.shadowRadius = 1;
     self.saturationBrightnessIndicator.layer.shadowOffset = CGSizeZero;
+    self.saturationBrightnessIndicator.userInteractionEnabled = NO;
+    self.saturationBrightnessIndicator.clipsToBounds = NO;
     [self addSubview:self.hueIndicator];
     [self addSubview:self.alphaIndicator];
     [self addSubview:self.saturationBrightnessIndicator];
@@ -120,6 +122,7 @@ static const CGFloat kValueLabelTouchOffset = 50;
     newView.layer.shadowOpacity = 1;
     newView.layer.shadowRadius = 1;
     newView.layer.shadowOffset = CGSizeZero;
+    newView.userInteractionEnabled = NO;
     return newView;
 }
 

@@ -14,10 +14,15 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="UIDrawingView">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="apk-t5-Nsg" customClass="UIDrawingView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="0.5" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="wsi-SS-HDq">
                                 <rect key="frame" x="14" y="357" width="304" height="31"/>
                                 <connections>
@@ -60,7 +65,7 @@
                     </view>
                     <connections>
                         <outlet property="colorPickerView" destination="u68-o3-1ik" id="g4U-gb-pBn"/>
-                        <outlet property="drawingView" destination="8bC-Xf-vdC" id="cET-D6-8In"/>
+                        <outlet property="drawingView" destination="apk-t5-Nsg" id="TX0-dz-Aff"/>
                         <outlet property="lineWidthSlider" destination="wsi-SS-HDq" id="VXw-ut-nc9"/>
                     </connections>
                 </viewController>
