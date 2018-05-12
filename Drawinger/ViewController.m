@@ -32,6 +32,7 @@
 - (IBAction)lineWeightSliderDidChange:(UISlider *)sender;
 {
     self.drawingView.lineWidth = sender.value;
+    self.colorPickerView.lineWidth = sender.value;
 }
 
 - (void)colorPickerView:(UIColorPickerView *)colorPickerView didPickColor:(UIColor *)color;

@@ -6,6 +6,9 @@
 @interface UIDrawingView()
 @property (nonatomic) NSMutableDictionary <NSString *, UIBezierPath *> *touchPaths;
 @property (nonatomic) NSMutableArray <UIBezierPath *> *drawingPaths;
+@property (nonatomic) UIImage *drawingStore;
+@property (nonatomic) UIImageView *drawingStoreView;
+@property (nonatomic) CGFloat max;
 @end
 
 @implementation UIDrawingView
@@ -19,9 +22,20 @@
     self.userInteractionEnabled = YES;
     self.multipleTouchEnabled = YES;
     self.contentMode = UIViewContentModeRedraw;
-    
+    self.backgroundColor = UIColor.clearColor;
+   self.max = MAX(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
+    self.drawingStoreView = [UIImageView.alloc initWithFrame:CGRectMake(0, 0, self.max, self.max)];
+    self.drawingStoreView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
+    self.drawingStoreView.backgroundColor = UIColor.clearColor;
+    self.drawingStoreView.contentMode = UIViewContentModeTopLeft;
     [self reset];
     return self;
+}
+
+- (void)didMoveToSuperview;
+{
+    [super didMoveToSuperview];
+    [self.superview insertSubview:self.drawingStoreView belowSubview:self];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -40,10 +54,26 @@
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self touchesMoved:touches withEvent:event];
     for (UITouch *touch in touches) {
+        [self addTouch:touch toPath:self.touchPaths[touch.identifier]];
         self.touchPaths[touch.identifier] = nil;
+        if (self.touchPaths.count == 0) {
+            [self commitPaths];
+        }
     }
+}
+
+- (void)commitPaths;
+{
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.max, self.max), NO, 0);
+    if (self.drawingStore) {
+        [self.drawingStore drawAtPoint:CGPointZero];
+    }
+    [self drawRect:self.bounds];
+    self.drawingStore = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    self.drawingStoreView.image = self.drawingStore;
+    self.drawingPaths = NSMutableArray.new;
 }
 
 - (UIBezierPath *)createPathAtPoint:(CGPoint)point;
@@ -60,7 +90,9 @@
 
 - (void)addTouch:(UITouch *)touch toPath:(UIBezierPath *)path;
 {
-    [path addQuadCurveToPoint:CGPointMake((touch.previousLocation.x + touch.location.x) / 2.f, (touch.previousLocation.y + touch.location.y) / 2.f) controlPoint:touch.previousLocation];
+    CGPoint halfPrevious = CGPointMake((touch.previousLocation.x + touch.location.x) / 2.f,
+                                       (touch.previousLocation.y + touch.location.y) / 2.f);
+    [path addQuadCurveToPoint:halfPrevious controlPoint:touch.previousLocation];
     [self setNeedsDisplay];
 }
 
@@ -79,6 +111,8 @@
     self.lineCapStyle = kCGLineCapRound;
     self.lineJoinStyle = kCGLineJoinRound;
     self.lineWidth = 2.f;
+    self.drawingStore = nil;
+    self.drawingStoreView.image = nil;
     [self setNeedsDisplay];
 }
 

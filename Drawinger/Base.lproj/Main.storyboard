@@ -18,22 +18,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="0.10000000000000001" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="wsi-SS-HDq">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="0.5" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="wsi-SS-HDq">
                                 <rect key="frame" x="14" y="357" width="304" height="31"/>
                                 <connections>
                                     <action selector="lineWeightSliderDidChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="rPd-KM-yRt"/>
                                 </connections>
                             </slider>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u68-o3-1ik" customClass="UIColorPickerView">
-                                <rect key="frame" x="16" y="395" width="343" height="256"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="256" id="fHE-Rf-MI8"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="colorPickerDelegate" destination="BYZ-38-t0r" id="wXu-xa-n8X"/>
-                                </connections>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="02b-n1-Yf8">
                                 <rect key="frame" x="324" y="357" width="35" height="30"/>
                                 <constraints>
@@ -44,6 +34,16 @@
                                     <action selector="resetWasTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Klr-81-l04"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u68-o3-1ik" customClass="UIColorPickerView">
+                                <rect key="frame" x="16" y="395" width="343" height="256"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="256" id="fHE-Rf-MI8"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="colorPickerDelegate" destination="BYZ-38-t0r" id="wXu-xa-n8X"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>

@@ -10,6 +10,7 @@
 
 @interface UIColorPickerView : UIView
 
+@property (nonatomic) CGFloat lineWidth;
 @property (nonatomic, readonly) UIColor *currentColor;
 @property (nonatomic, weak) IBOutlet id<UIColorPickerViewDelegate> colorPickerDelegate;
 
