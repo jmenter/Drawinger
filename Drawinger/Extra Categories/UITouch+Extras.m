@@ -6,7 +6,7 @@
 @dynamic location;
 @dynamic previousLocation;
 
-- (NSString *)identifier;
+- (nonnull NSString *)identifier;
 {
     return [NSString stringWithFormat:@"%p", self];
 }

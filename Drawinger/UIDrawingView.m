@@ -6,9 +6,9 @@
 @interface UIDrawingView()
 @property (nonatomic) NSMutableDictionary <NSString *, UIBezierPath *> *touchPaths;
 @property (nonatomic) NSMutableArray <UIBezierPath *> *drawingPaths;
-@property (nonatomic) UIImage *drawingStore;
-@property (nonatomic) UIImageView *drawingStoreView;
-@property (nonatomic) CGFloat max;
+@property (nonatomic) UIImage *drawingStoreImage;
+@property (nonatomic) UIImageView *drawingStoreImageView;
+@property (nonatomic) CGFloat maxDimension;
 @end
 
 @implementation UIDrawingView
@@ -23,11 +23,11 @@
     self.multipleTouchEnabled = YES;
     self.contentMode = UIViewContentModeRedraw;
     self.backgroundColor = UIColor.clearColor;
-    self.max = MAX(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
-    self.drawingStoreView = [UIImageView.alloc initWithFrame:CGRectMake(0, 0, self.max, self.max)];
-    self.drawingStoreView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
-    self.drawingStoreView.backgroundColor = UIColor.clearColor;
-    self.drawingStoreView.contentMode = UIViewContentModeTopLeft;
+    self.maxDimension = MAX(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
+    self.drawingStoreImageView = [UIImageView.alloc initWithFrame:CGRectMake(0, 0, self.maxDimension, self.maxDimension)];
+    self.drawingStoreImageView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
+    self.drawingStoreImageView.backgroundColor = UIColor.clearColor;
+    self.drawingStoreImageView.contentMode = UIViewContentModeTopLeft;
     [self reset];
     return self;
 }
@@ -40,18 +40,19 @@
     self.lineCapStyle = kCGLineCapRound;
     self.lineJoinStyle = kCGLineJoinRound;
     self.lineWidth = 2.f;
-    self.drawingStore = nil;
-    self.drawingStoreView.image = nil;
+    self.drawingStoreImage = nil;
+    self.drawingStoreImageView.image = nil;
     [self setNeedsDisplay];
 }
 
 - (void)didMoveToSuperview;
 {
     [super didMoveToSuperview];
-    [self.superview insertSubview:self.drawingStoreView belowSubview:self];
+    [self.superview insertSubview:self.drawingStoreImageView belowSubview:self];
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+{
     for (UITouch *touch in touches) {
         UIBezierPath *path = [UIBezierPath pathAtPoint:touch.location strokeColor:self.drawingColor
                                           lineCapStyle:self.lineCapStyle lineJoinStyle:self.lineJoinStyle
@@ -62,19 +63,21 @@
     }
 }
 
-- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+{
     for (UITouch *touch in touches) {
         [self addTouch:touch toPath:self.touchPaths[touch.identifier]];
     }
 }
 
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+{
     [self touchesMoved:touches withEvent:event];
     for (UITouch *touch in touches) {
         self.touchPaths[touch.identifier] = nil;
     }
     if (self.touchPaths.count == 0) {
-        [self commitPaths];
+        [self commitDrawingPaths];
     }
 }
 
@@ -84,15 +87,16 @@
     [self setNeedsDisplay];
 }
 
-- (void)commitPaths;
+- (void)commitDrawingPaths;
 {
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.max, self.max), NO, 0);
-    [self.drawingStore drawAtPoint:CGPointZero];
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.maxDimension, self.maxDimension), NO, 0);
+    [self.drawingStoreImage drawAtPoint:CGPointZero];
     [self drawRect:self.bounds];
-    self.drawingStore = UIGraphicsGetImageFromCurrentImageContext();
+    self.drawingStoreImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    self.drawingStoreView.image = self.drawingStore;
-    self.drawingPaths = NSMutableArray.new;
+    
+    self.drawingStoreImageView.image = self.drawingStoreImage;
+    [self.drawingPaths removeAllObjects];
     [self setNeedsDisplay];
 }
 

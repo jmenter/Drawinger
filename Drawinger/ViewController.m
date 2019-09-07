@@ -5,9 +5,9 @@
 
 @interface ViewController()<UIColorPickerViewDelegate>
 
-@property (strong, nonatomic) IBOutlet UIDrawingView *drawingView;
-@property (weak, nonatomic) IBOutlet UIColorPickerView *colorPickerView;
-@property (weak, nonatomic) IBOutlet UISlider *lineWidthSlider;
+@property (nonatomic, nonnull) IBOutlet UIDrawingView *drawingView;
+@property (nonatomic, nonnull) IBOutlet UIColorPickerView *colorPickerView;
+@property (nonatomic, nonnull) IBOutlet UISlider *lineWidthSlider;
 
 @end
 
@@ -29,13 +29,13 @@
     self.drawingView.lineWidth = self.lineWidthSlider.value;
 }
 
-- (IBAction)lineWeightSliderDidChange:(UISlider *)sender;
+- (IBAction)lineWeightSliderDidChange:(nonnull UISlider *)sender;
 {
     self.drawingView.lineWidth = sender.value;
     self.colorPickerView.lineWidth = sender.value;
 }
 
-- (void)colorPickerView:(UIColorPickerView *)colorPickerView didPickColor:(UIColor *)color;
+- (void)colorPickerView:(nonnull UIColorPickerView *)colorPickerView didPickColor:(nonnull UIColor *)color;
 {
     self.drawingView.drawingColor = color;
 }

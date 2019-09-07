@@ -1,9 +1,9 @@
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface UIDrawingView : UIView
 
-@property (nonatomic) UIColor *drawingColor;
+@property (nonatomic, nonnull) UIColor *drawingColor;
 @property CGLineCap lineCapStyle;
 @property CGLineJoin lineJoinStyle;
 @property CGFloat lineWidth;

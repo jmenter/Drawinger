@@ -40,63 +40,24 @@ static const CGFloat kValueLabelTouchOffset = 50;
 
 - (instancetype)commonInit;
 {
+    self.multipleTouchEnabled = NO;
+    self.userInteractionEnabled = YES;
     self.lineWidth = 5;
     self.currentHue = 0;
     self.currentSaturation = 0.5;
     self.currentBrightness = 0.75;
     self.currentAlpha = 1;
-    self.saturationLayer = CAGradientLayer.layer;
-    self.saturationLayer.masksToBounds = YES;
-    self.saturationLayer.startPoint = CGPointMake(0, 0);
-    self.saturationLayer.endPoint = CGPointMake(1, 0);
-    
-    self.valuesLabel = [UILabel.alloc initWithFrame:CGRectMake(0, 0, 100, 30)];
-    self.valuesLabel.textAlignment = NSTextAlignmentCenter;
-    self.valuesLabel.font = [UIFont boldSystemFontOfSize:10];
-    self.valuesLabel.numberOfLines = 0;
-    self.valuesLabel.layer.cornerRadius = 4;
-    self.valuesLabel.layer.masksToBounds = YES;
-    self.valuesLabel.layer.shadowColor = UIColor.blackColor.CGColor;
-    self.valuesLabel.layer.shadowOffset = CGSizeZero;
-    self.valuesLabel.layer.shadowRadius = 3;
-    self.valuesLabel.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
-    self.valuesLabel.textColor = [UIColor colorWithWhite:0.1 alpha:1.0];
-    self.valuesLabel.alpha = 0;
-    
-    self.brightnessLayer = CAGradientLayer.layer;
-    self.brightnessLayer.masksToBounds = YES;
-    self.brightnessLayer.colors = @[(id)[UIColor colorWithHue:0 saturation:0 brightness:1 alpha:1].CGColor,
-                                    (id)[UIColor colorWithHue:0 saturation:0 brightness:0 alpha:1].CGColor];
-    
-    self.hueLayer = CAGradientLayer.layer;
-    self.hueLayer.masksToBounds = YES;
-    self.hueLayer.colors = @[(id)[UIColor colorWithHue:0.0 saturation:1 brightness:1 alpha:1].CGColor,
-                             (id)[UIColor colorWithHue:0.2 saturation:1 brightness:1 alpha:1].CGColor,
-                             (id)[UIColor colorWithHue:0.4 saturation:1 brightness:1 alpha:1].CGColor,
-                             (id)[UIColor colorWithHue:0.6 saturation:1 brightness:1 alpha:1].CGColor,
-                             (id)[UIColor colorWithHue:0.8 saturation:1 brightness:1 alpha:1].CGColor,
-                             (id)[UIColor colorWithHue:1.0 saturation:1 brightness:1 alpha:1].CGColor];
-    
-    self.alphaLayer = CAGradientLayer.layer;
-    self.alphaLayer.masksToBounds = YES;
-    self.alphaLayer.backgroundColor = UIColor.transparencyPattern.CGColor;
-    
-    self.multipleTouchEnabled = NO;
-    self.userInteractionEnabled = YES;
-    
+
+    self.saturationLayer = [self createSaturationLayer];
+    self.brightnessLayer = [self createBrightnessLayer];
+    self.hueLayer = [self createHueLayer];
+    self.alphaLayer = [self createAlphaLayer];
+
     self.hueIndicator = [self createIndicatorView];
     self.alphaIndicator = [self createIndicatorView];
-    
-    self.saturationBrightnessIndicator = [UIView.alloc initWithFrame:CGRectMake(kHueBarWidth, 0, self.lineWidth, self.lineWidth)];
-    self.saturationBrightnessIndicator.layer.borderColor = UIColor.blackColor.CGColor;
-    self.saturationBrightnessIndicator.layer.borderWidth = 1;
-    self.saturationBrightnessIndicator.layer.cornerRadius = self.lineWidth / 2.f;
-    self.saturationBrightnessIndicator.layer.shadowColor = UIColor.blackColor.CGColor;
-    self.saturationBrightnessIndicator.layer.shadowOpacity = 1;
-    self.saturationBrightnessIndicator.layer.shadowRadius = 1;
-    self.saturationBrightnessIndicator.layer.shadowOffset = CGSizeZero;
-    self.saturationBrightnessIndicator.userInteractionEnabled = NO;
-    self.saturationBrightnessIndicator.clipsToBounds = NO;
+    self.saturationBrightnessIndicator = [self createSaturationBrightnessIndicator];
+    self.valuesLabel = [self createValuesLabel];
+
     [self addSubview:self.hueIndicator];
     [self addSubview:self.alphaIndicator];
     [self addSubview:self.saturationBrightnessIndicator];
@@ -109,6 +70,63 @@ static const CGFloat kValueLabelTouchOffset = 50;
     self.contentMode = UIViewContentModeRedraw;
     
     return self;
+}
+
+- (CAGradientLayer *)createMaskingGradientLayer;
+{
+    CAGradientLayer *layer = CAGradientLayer.layer;
+    layer.masksToBounds = YES;
+    return layer;
+}
+- (CAGradientLayer *)createSaturationLayer;
+{
+    CAGradientLayer *layer = [self createMaskingGradientLayer];
+    layer.startPoint = CGPointMake(0, 0);
+    layer.endPoint = CGPointMake(1, 0);
+    return layer;
+}
+
+- (UILabel *)createValuesLabel;
+{
+    UILabel *label = [UILabel.alloc initWithFrame:CGRectMake(0, 0, 100, 30)];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont boldSystemFontOfSize:10];
+    label.numberOfLines = 0;
+    label.layer.cornerRadius = 4;
+    label.layer.masksToBounds = YES;
+    label.layer.shadowColor = UIColor.blackColor.CGColor;
+    label.layer.shadowOffset = CGSizeZero;
+    label.layer.shadowRadius = 3;
+    label.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
+    label.textColor = [UIColor colorWithWhite:0.1 alpha:1.0];
+    label.alpha = 0;
+    return label;
+}
+
+- (CAGradientLayer *)createBrightnessLayer;
+{
+    CAGradientLayer *layer = [self createMaskingGradientLayer];
+    layer.colors = @[(id)[UIColor colorWithHue:0 saturation:0 brightness:1 alpha:1].CGColor,
+                     (id)[UIColor colorWithHue:0 saturation:0 brightness:0 alpha:1].CGColor];
+    return layer;
+}
+
+- (CAGradientLayer *)createHueLayer;
+{
+    CAGradientLayer *layer = [self createMaskingGradientLayer];
+    layer.colors = @[(id)[UIColor colorWithHue:0.0 saturation:1 brightness:1 alpha:1].CGColor,
+                     (id)[UIColor colorWithHue:0.2 saturation:1 brightness:1 alpha:1].CGColor,
+                     (id)[UIColor colorWithHue:0.4 saturation:1 brightness:1 alpha:1].CGColor,
+                     (id)[UIColor colorWithHue:0.6 saturation:1 brightness:1 alpha:1].CGColor,
+                     (id)[UIColor colorWithHue:0.8 saturation:1 brightness:1 alpha:1].CGColor,
+                     (id)[UIColor colorWithHue:1.0 saturation:1 brightness:1 alpha:1].CGColor];
+    return layer;
+}
+
+- (CAGradientLayer *)createAlphaLayer {
+    CAGradientLayer *layer = [self createMaskingGradientLayer];
+    layer.backgroundColor = UIColor.transparencyPattern.CGColor;
+    return layer;
 }
 
 - (UIView *)createIndicatorView;
@@ -124,6 +142,21 @@ static const CGFloat kValueLabelTouchOffset = 50;
     newView.layer.shadowOffset = CGSizeZero;
     newView.userInteractionEnabled = NO;
     return newView;
+}
+
+- (UIView *)createSaturationBrightnessIndicator;
+{
+    UIView *view = [UIView.alloc initWithFrame:CGRectMake(kHueBarWidth, 0, self.lineWidth, self.lineWidth)];
+    view.layer.borderColor = UIColor.blackColor.CGColor;
+    view.layer.borderWidth = 1;
+    view.layer.cornerRadius = self.lineWidth / 2.f;
+    view.layer.shadowColor = UIColor.blackColor.CGColor;
+    view.layer.shadowOpacity = 1;
+    view.layer.shadowRadius = 1;
+    view.layer.shadowOffset = CGSizeZero;
+    view.userInteractionEnabled = NO;
+    view.clipsToBounds = NO;
+    return view;
 }
 
 - (UIColor *)currentColor;
@@ -219,26 +252,31 @@ static const CGFloat kValueLabelTouchOffset = 50;
 
 - (void)drawRect:(CGRect)rect;
 {
+    self.saturationLayer.colors = @[(id)[UIColor colorWithHue:self.currentHue saturation:0
+                                                   brightness:1 alpha:1].CGColor,
+                                    (id)[UIColor colorWithHue:self.currentHue saturation:1
+                                                   brightness:1 alpha:1].CGColor];
+    self.alphaLayer.colors = @[(id)[UIColor colorWithHue:self.currentHue saturation:self.currentSaturation
+                                              brightness:self.currentBrightness alpha:0].CGColor,
+                               (id)[UIColor colorWithHue:self.currentHue saturation:self.currentSaturation
+                                              brightness:self.currentBrightness alpha:1].CGColor];
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
     self.hueLayer.frame = CGRectMake(0, 0, kHueBarWidth, rect.size.height);
-    [self.hueLayer renderInContext:UIGraphicsGetCurrentContext()];
+    [self.hueLayer renderInContext:context];
     
-    CGContextTranslateCTM(UIGraphicsGetCurrentContext(), kHueBarWidth, 0);
+    CGContextTranslateCTM(context, kHueBarWidth, 0);
     self.brightnessLayer.frame = CGRectMake(0, 0, rect.size.width - kHueBarWidth, rect.size.height);
-    [self.brightnessLayer renderInContext:UIGraphicsGetCurrentContext()];
+    [self.brightnessLayer renderInContext:context];
     
-    CGContextSetBlendMode(UIGraphicsGetCurrentContext(), kCGBlendModeMultiply);
-    self.saturationLayer.colors = @[(id)[UIColor colorWithHue:self.currentHue saturation:0 brightness:1 alpha:1].CGColor,
-                                    (id)[UIColor colorWithHue:self.currentHue saturation:1 brightness:1 alpha:1].CGColor];
+    CGContextSetBlendMode(context, kCGBlendModeMultiply);
     self.saturationLayer.frame = CGRectMake(0, 0, rect.size.width - kHueBarWidth, rect.size.height);
-    [self.saturationLayer renderInContext:UIGraphicsGetCurrentContext()];
+    [self.saturationLayer renderInContext:context];
     
-    CGContextTranslateCTM(UIGraphicsGetCurrentContext(), rect.size.width - kHueBarWidth - kHueBarWidth, 0);
-    CGContextSetBlendMode(UIGraphicsGetCurrentContext(), kCGBlendModeNormal);
+    CGContextTranslateCTM(context, rect.size.width - kHueBarWidth - kHueBarWidth, 0);
+    CGContextSetBlendMode(context, kCGBlendModeNormal);
     self.alphaLayer.frame = CGRectMake(0, 0, kHueBarWidth, rect.size.height);
-    self.alphaLayer.colors = @[(id)[UIColor colorWithHue:self.currentHue saturation:self.currentSaturation brightness:self.currentBrightness alpha:0].CGColor,
-                               (id)[UIColor colorWithHue:self.currentHue saturation:self.currentSaturation brightness:self.currentBrightness alpha:1].CGColor];
-    [self.alphaLayer renderInContext:UIGraphicsGetCurrentContext()];
-    
+    [self.alphaLayer renderInContext:context];
 }
 
 @end

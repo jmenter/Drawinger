@@ -4,14 +4,15 @@
 @class UIColorPickerView;
 
 @protocol UIColorPickerViewDelegate
-- (void)colorPickerView:(UIColorPickerView *)colorPickerView didPickColor:(UIColor *)color;
+- (void)colorPickerView:(nonnull UIColorPickerView *)colorPickerView
+           didPickColor:(nonnull UIColor *)color;
 @end
 
 
 @interface UIColorPickerView : UIView
 
 @property (nonatomic) CGFloat lineWidth;
-@property (nonatomic, readonly) UIColor *currentColor;
-@property (nonatomic, weak) IBOutlet id<UIColorPickerViewDelegate> colorPickerDelegate;
+@property (nonatomic, readonly, nonnull) UIColor *currentColor;
+@property (nonatomic, weak, nullable) IBOutlet id<UIColorPickerViewDelegate> colorPickerDelegate;
 
 @end
