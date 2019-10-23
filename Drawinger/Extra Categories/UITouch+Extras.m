@@ -1,5 +1,6 @@
 
 #import "UITouch+Extras.h"
+#import "CGExtras.h"
 
 @implementation UITouch (Extras)
 @dynamic identifier;
@@ -23,8 +24,7 @@
 
 - (CGPoint)halfPreviousLocation;
 {
-    return CGPointMake((self.previousLocation.x + self.location.x) / 2.f,
-                       (self.previousLocation.y + self.location.y) / 2.f);;
+    return CGPointDivide(CGPointAddPoints(self.previousLocation, self.location), 2.f);
 }
 
 @end

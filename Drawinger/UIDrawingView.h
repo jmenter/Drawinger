@@ -1,5 +1,6 @@
 
 @import UIKit;
+#import "UIStyle.h"
 
 @interface UIDrawingView : UIView
 
@@ -9,5 +10,6 @@
 @property CGFloat lineWidth;
 
 - (void)reset;
+- (void)applyStyle:(UIStyle *_Nonnull)style;
 
 @end

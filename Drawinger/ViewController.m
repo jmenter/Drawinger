@@ -1,13 +1,13 @@
 
 #import "ViewController.h"
 #import "UIDrawingView.h"
-#import "UIColorPickerView.h"
+#import "UIStylePickerView.h"
+#import "CGExtras.h"
 
-@interface ViewController()<UIColorPickerViewDelegate>
+@interface ViewController()<UIStylePickerViewDelegate>
 
 @property (nonatomic, nonnull) IBOutlet UIDrawingView *drawingView;
-@property (nonatomic, nonnull) IBOutlet UIColorPickerView *colorPickerView;
-@property (nonatomic, nonnull) IBOutlet UISlider *lineWidthSlider;
+@property (nonatomic, nonnull) IBOutlet UIStylePickerView *colorPickerView;
 
 @end
 
@@ -25,19 +25,17 @@
 - (IBAction)resetWasTapped:(id)sender;
 {
     [self.drawingView reset];
-    self.drawingView.drawingColor = self.colorPickerView.currentColor;
-    self.drawingView.lineWidth = self.lineWidthSlider.value;
+    [self.drawingView applyStyle:self.colorPickerView.currentStyle];
 }
 
-- (IBAction)lineWeightSliderDidChange:(nonnull UISlider *)sender;
+- (void)stylePickerView:(UIStylePickerView *)stylePickerView didPickStyle:(id)style;
 {
-    self.drawingView.lineWidth = sender.value;
-    self.colorPickerView.lineWidth = sender.value;
+    [self.drawingView applyStyle:style];
 }
 
-- (void)colorPickerView:(nonnull UIColorPickerView *)colorPickerView didPickColor:(nonnull UIColor *)color;
+- (void)stylePickerView:(UIStylePickerView *)colorPickerView didRequestMove:(CGPoint)amount;
 {
-    self.drawingView.drawingColor = color;
+    colorPickerView.center = CGPointQuantize(CGPointAddPoints(colorPickerView.center, amount));
 }
 
 @end

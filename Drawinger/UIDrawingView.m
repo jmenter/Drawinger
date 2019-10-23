@@ -2,6 +2,8 @@
 #import "UIDrawingView.h"
 #import "UIBezierPath+Extras.h"
 #import "UITouch+Extras.h"
+#import "NSSet+Extras.h"
+#import "NSArray+Extras.h"
 
 @interface UIDrawingView()
 @property (nonatomic) NSMutableDictionary <NSString *, UIBezierPath *> *touchPaths;
@@ -32,6 +34,12 @@
     return self;
 }
 
+- (void)applyStyle:(UIStyle *)style;
+{
+    self.drawingColor = style.color;
+    self.lineWidth = style.lineWidth;
+}
+
 - (void)reset;
 {
     self.touchPaths = NSMutableDictionary.new;
@@ -53,38 +61,29 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
-    for (UITouch *touch in touches) {
+    [touches forEach:^(UITouch *touch) {
         UIBezierPath *path = [UIBezierPath pathAtPoint:touch.location strokeColor:self.drawingColor
                                           lineCapStyle:self.lineCapStyle lineJoinStyle:self.lineJoinStyle
                                              lineWidth:self.lineWidth];
-        [self addTouch:touch toPath:path];
+        [path addTouchToPath:touch];
         self.touchPaths[touch.identifier] = path;
         [self.drawingPaths addObject:path];
-    }
+    }];
+    [self setNeedsDisplay];
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
-    for (UITouch *touch in touches) {
-        [self addTouch:touch toPath:self.touchPaths[touch.identifier]];
-    }
+    [touches forEach:^(UITouch *touch) { [self.touchPaths[touch.identifier] addTouchToPath:touch]; }];
+    [self setNeedsDisplay];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
     [self touchesMoved:touches withEvent:event];
-    for (UITouch *touch in touches) {
-        self.touchPaths[touch.identifier] = nil;
-    }
-    if (self.touchPaths.count == 0) {
-        [self commitDrawingPaths];
-    }
-}
+    [touches forEach:^(UITouch *touch) { self.touchPaths[touch.identifier] = nil; }];
 
-- (void)addTouch:(UITouch *)touch toPath:(UIBezierPath *)path;
-{
-    [path addQuadCurveToPoint:touch.halfPreviousLocation controlPoint:touch.previousLocation];
-    [self setNeedsDisplay];
+    if (self.touchPaths.count == 0) [self commitDrawingPaths];
 }
 
 - (void)commitDrawingPaths;
@@ -101,10 +100,7 @@
 }
 
 - (void)drawRect:(CGRect)rect {
-    for (UIBezierPath *path in self.drawingPaths) {
-        [path.strokeColor setStroke];
-        [path stroke];
-    }
+    [self.drawingPaths forEach:^(UIBezierPath *path) { [path strokeWithCurrentStrokeColor]; }];
 }
 
 @end

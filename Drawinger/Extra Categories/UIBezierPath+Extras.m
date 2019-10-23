@@ -1,5 +1,7 @@
 
 #import "UIBezierPath+Extras.h"
+#import "UITouch+Extras.h"
+
 #import <objc/runtime.h>
 
 @implementation UIBezierPath (Extras)
@@ -30,6 +32,17 @@
     [path moveToPoint:point];
     
     return path;
+}
+
+- (void)strokeWithCurrentStrokeColor;
+{
+    [self.strokeColor setStroke];
+    [self stroke];
+}
+
+- (void)addTouchToPath:(UITouch *)touch;
+{
+    [self addQuadCurveToPoint:touch.halfPreviousLocation controlPoint:touch.previousLocation];
 }
 
 @end

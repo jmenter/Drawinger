@@ -11,4 +11,8 @@
                 lineJoinStyle:(CGLineJoin)lineJoinStyle
                     lineWidth:(CGFloat)lineWidth;
 
+- (void)strokeWithCurrentStrokeColor;
+
+- (void)addTouchToPath:(UITouch *)touch;
+
 @end

@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		6387E4DF2089245900A9CC9E /* UIColor+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 6387E4DE2089245900A9CC9E /* UIColor+Extras.m */; };
 		6387E4E22089248E00A9CC9E /* UIImage+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 6387E4E12089248E00A9CC9E /* UIImage+Extras.m */; };
+		638EE7812360A78A00B9912D /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 638EE77F2360A78A00B9912D /* NSArray+Extras.m */; };
+		638EE7842360A7CB00B9912D /* NSSet+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 638EE7832360A7CB00B9912D /* NSSet+Extras.m */; };
+		638EE7872360AE6E00B9912D /* CGExtras.c in Sources */ = {isa = PBXBuildFile; fileRef = 638EE7862360AE6E00B9912D /* CGExtras.c */; };
+		638EE78A2360BE8200B9912D /* UIStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 638EE7892360BE8200B9912D /* UIStyle.m */; };
 		63AA096720894F3400829B03 /* UIBezierPath+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AA096620894F3400829B03 /* UIBezierPath+Extras.m */; };
 		63AA096A20894F9400829B03 /* UITouch+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AA096920894F9400829B03 /* UITouch+Extras.m */; };
 		63FDFC8E2088367000E1BD30 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFC8D2088367000E1BD30 /* AppDelegate.m */; };
@@ -18,7 +22,7 @@
 		63FDFC992088367300E1BD30 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63FDFC972088367300E1BD30 /* LaunchScreen.storyboard */; };
 		63FDFC9C2088367300E1BD30 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFC9B2088367300E1BD30 /* main.m */; };
 		63FDFCA4208836A000E1BD30 /* UIDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFCA3208836A000E1BD30 /* UIDrawingView.m */; };
-		63FDFCA720883AE000E1BD30 /* UIColorPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFCA620883AE000E1BD30 /* UIColorPickerView.m */; };
+		63FDFCA720883AE000E1BD30 /* UIStylePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFCA620883AE000E1BD30 /* UIStylePickerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,14 @@
 		6387E4DE2089245900A9CC9E /* UIColor+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extras.m"; sourceTree = "<group>"; };
 		6387E4E02089248E00A9CC9E /* UIImage+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extras.h"; sourceTree = "<group>"; };
 		6387E4E12089248E00A9CC9E /* UIImage+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extras.m"; sourceTree = "<group>"; };
+		638EE77F2360A78A00B9912D /* NSArray+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Extras.m"; sourceTree = "<group>"; };
+		638EE7802360A78A00B9912D /* NSArray+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Extras.h"; sourceTree = "<group>"; };
+		638EE7822360A7CB00B9912D /* NSSet+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSSet+Extras.h"; sourceTree = "<group>"; };
+		638EE7832360A7CB00B9912D /* NSSet+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSSet+Extras.m"; sourceTree = "<group>"; };
+		638EE7852360AE6E00B9912D /* CGExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CGExtras.h; sourceTree = "<group>"; };
+		638EE7862360AE6E00B9912D /* CGExtras.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CGExtras.c; sourceTree = "<group>"; };
+		638EE7882360BE8200B9912D /* UIStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIStyle.h; sourceTree = "<group>"; };
+		638EE7892360BE8200B9912D /* UIStyle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIStyle.m; sourceTree = "<group>"; };
 		63AA096520894F3400829B03 /* UIBezierPath+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+Extras.h"; sourceTree = "<group>"; };
 		63AA096620894F3400829B03 /* UIBezierPath+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+Extras.m"; sourceTree = "<group>"; };
 		63AA096820894F9400829B03 /* UITouch+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITouch+Extras.h"; sourceTree = "<group>"; };
@@ -42,8 +54,8 @@
 		63FDFC9B2088367300E1BD30 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		63FDFCA2208836A000E1BD30 /* UIDrawingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIDrawingView.h; sourceTree = "<group>"; };
 		63FDFCA3208836A000E1BD30 /* UIDrawingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIDrawingView.m; sourceTree = "<group>"; };
-		63FDFCA520883AE000E1BD30 /* UIColorPickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIColorPickerView.h; sourceTree = "<group>"; };
-		63FDFCA620883AE000E1BD30 /* UIColorPickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIColorPickerView.m; sourceTree = "<group>"; };
+		63FDFCA520883AE000E1BD30 /* UIStylePickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIStylePickerView.h; sourceTree = "<group>"; };
+		63FDFCA620883AE000E1BD30 /* UIStylePickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIStylePickerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +72,10 @@
 		63AA096B208959A000829B03 /* Extra Categories */ = {
 			isa = PBXGroup;
 			children = (
+				638EE7802360A78A00B9912D /* NSArray+Extras.h */,
+				638EE77F2360A78A00B9912D /* NSArray+Extras.m */,
+				638EE7822360A7CB00B9912D /* NSSet+Extras.h */,
+				638EE7832360A7CB00B9912D /* NSSet+Extras.m */,
 				6387E4DD2089245900A9CC9E /* UIColor+Extras.h */,
 				6387E4DE2089245900A9CC9E /* UIColor+Extras.m */,
 				6387E4E02089248E00A9CC9E /* UIImage+Extras.h */,
@@ -68,6 +84,8 @@
 				63AA096620894F3400829B03 /* UIBezierPath+Extras.m */,
 				63AA096820894F9400829B03 /* UITouch+Extras.h */,
 				63AA096920894F9400829B03 /* UITouch+Extras.m */,
+				638EE7852360AE6E00B9912D /* CGExtras.h */,
+				638EE7862360AE6E00B9912D /* CGExtras.c */,
 			);
 			path = "Extra Categories";
 			sourceTree = "<group>";
@@ -97,8 +115,10 @@
 				63FDFC902088367000E1BD30 /* ViewController.m */,
 				63FDFCA2208836A000E1BD30 /* UIDrawingView.h */,
 				63FDFCA3208836A000E1BD30 /* UIDrawingView.m */,
-				63FDFCA520883AE000E1BD30 /* UIColorPickerView.h */,
-				63FDFCA620883AE000E1BD30 /* UIColorPickerView.m */,
+				63FDFCA520883AE000E1BD30 /* UIStylePickerView.h */,
+				63FDFCA620883AE000E1BD30 /* UIStylePickerView.m */,
+				638EE7882360BE8200B9912D /* UIStyle.h */,
+				638EE7892360BE8200B9912D /* UIStyle.m */,
 				63AA096B208959A000829B03 /* Extra Categories */,
 				63FDFC922088367000E1BD30 /* Main.storyboard */,
 				63FDFC952088367300E1BD30 /* Assets.xcassets */,
@@ -179,13 +199,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				638EE7872360AE6E00B9912D /* CGExtras.c in Sources */,
 				6387E4DF2089245900A9CC9E /* UIColor+Extras.m in Sources */,
-				63FDFCA720883AE000E1BD30 /* UIColorPickerView.m in Sources */,
+				63FDFCA720883AE000E1BD30 /* UIStylePickerView.m in Sources */,
 				63AA096A20894F9400829B03 /* UITouch+Extras.m in Sources */,
 				63FDFC912088367000E1BD30 /* ViewController.m in Sources */,
 				6387E4E22089248E00A9CC9E /* UIImage+Extras.m in Sources */,
+				638EE7812360A78A00B9912D /* NSArray+Extras.m in Sources */,
 				63FDFC9C2088367300E1BD30 /* main.m in Sources */,
+				638EE78A2360BE8200B9912D /* UIStyle.m in Sources */,
 				63FDFC8E2088367000E1BD30 /* AppDelegate.m in Sources */,
+				638EE7842360A7CB00B9912D /* NSSet+Extras.m in Sources */,
 				63AA096720894F3400829B03 /* UIBezierPath+Extras.m in Sources */,
 				63FDFCA4208836A000E1BD30 /* UIDrawingView.m in Sources */,
 			);

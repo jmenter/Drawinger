@@ -1,8 +1,10 @@
 
-#import "UIColorPickerView.h"
+#import "UIStylePickerView.h"
 #import "UIColor+Extras.h"
 #import "UIImage+Extras.h"
 #import "UITouch+Extras.h"
+#import "NSSet+Extras.h"
+#import "CGExtras.h"
 
 typedef NS_ENUM(NSUInteger, TouchArea) {
     TouchAreaHue,
@@ -10,7 +12,7 @@ typedef NS_ENUM(NSUInteger, TouchArea) {
     TouchAreaAlpha,
 };
 
-@interface UIColorPickerView()
+@interface UIStylePickerView()
 @property (nonatomic) CGFloat currentHue;
 @property (nonatomic) CGFloat currentSaturation;
 @property (nonatomic) CGFloat currentBrightness;
@@ -27,9 +29,11 @@ typedef NS_ENUM(NSUInteger, TouchArea) {
 
 @property (nonatomic) UILabel *valuesLabel;
 @property (nonatomic) TouchArea touchArea;
+@property (nonatomic, readwrite, nonnull) UIStyle *currentStyle;
+
 @end
 
-@implementation UIColorPickerView
+@implementation UIStylePickerView
 
 static const CGFloat kHueBarWidth = 30;
 static const CGFloat kValueLabelTouchOffset = 50;
@@ -42,12 +46,12 @@ static const CGFloat kValueLabelTouchOffset = 50;
 {
     self.multipleTouchEnabled = NO;
     self.userInteractionEnabled = YES;
-    self.lineWidth = 5;
     self.currentHue = 0;
     self.currentSaturation = 0.5;
     self.currentBrightness = 0.75;
     self.currentAlpha = 1;
 
+    self.currentStyle = [UIStyle styleWithColor:[UIColor colorWithHue:self.currentHue saturation:self.currentSaturation brightness:self.currentBrightness alpha:self.currentAlpha] lineWidth:5];
     self.saturationLayer = [self createSaturationLayer];
     self.brightnessLayer = [self createBrightnessLayer];
     self.hueLayer = [self createHueLayer];
@@ -68,8 +72,34 @@ static const CGFloat kValueLabelTouchOffset = 50;
     self.layer.shadowRadius = 3;
     self.layer.shadowOffset = CGSizeZero;
     self.contentMode = UIViewContentModeRedraw;
-    
+
+    UIPinchGestureRecognizer *pinchGr = [UIPinchGestureRecognizer.alloc initWithTarget:self action:@selector(handlePinch:)];
+    [self addGestureRecognizer:pinchGr];
+
+    UIPanGestureRecognizer *panGr = [UIPanGestureRecognizer.alloc initWithTarget:self action:@selector(handlePan:)];
+    panGr.minimumNumberOfTouches = 2;
+    [self addGestureRecognizer:panGr];
+
     return self;
+}
+
+- (void)handlePan:(UIPanGestureRecognizer *)panGR;
+{
+    static CGPoint previousLocation;
+    if (panGR.state == UIGestureRecognizerStateBegan) {
+        previousLocation = [panGR locationInView:self];
+    } else if (panGR.state == UIGestureRecognizerStateChanged) {
+        CGPoint currentLocation = [panGR locationInView:self];
+        [self.stylePickerDelegate stylePickerView:self didRequestMove:CGPointSubtractPoints(currentLocation, previousLocation)];
+        previousLocation = currentLocation;
+    }
+}
+
+- (void)handlePinch:(UIPinchGestureRecognizer *)pinchGR;
+{
+    self.currentStyle.lineWidth *= pinchGR.scale;
+    self.currentStyle.lineWidth = (self.currentStyle.lineWidth < 0.1) ? 0.1 : (self.currentStyle.lineWidth > 80) ? 80 : self.currentStyle.lineWidth;
+    [self.stylePickerDelegate stylePickerView:self didPickStyle:self.currentStyle];
 }
 
 - (CAGradientLayer *)createMaskingGradientLayer;
@@ -146,10 +176,10 @@ static const CGFloat kValueLabelTouchOffset = 50;
 
 - (UIView *)createSaturationBrightnessIndicator;
 {
-    UIView *view = [UIView.alloc initWithFrame:CGRectMake(kHueBarWidth, 0, self.lineWidth, self.lineWidth)];
+    UIView *view = [UIView.alloc initWithFrame:CGRectMake(kHueBarWidth, 0, self.currentStyle.lineWidth, self.currentStyle.lineWidth)];
     view.layer.borderColor = UIColor.blackColor.CGColor;
     view.layer.borderWidth = 1;
-    view.layer.cornerRadius = self.lineWidth / 2.f;
+    view.layer.cornerRadius = self.currentStyle.lineWidth / 2.f;
     view.layer.shadowColor = UIColor.blackColor.CGColor;
     view.layer.shadowOpacity = 1;
     view.layer.shadowRadius = 1;
@@ -213,7 +243,8 @@ static const CGFloat kValueLabelTouchOffset = 50;
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
     [self touchesMoved:touches withEvent:event];
-    [self.colorPickerDelegate colorPickerView:self didPickColor:self.currentColor];
+
+    [self.stylePickerDelegate stylePickerView:self didPickStyle:self.currentStyle];
     [UIView animateWithDuration:0.2 animations:^{ self.valuesLabel.alpha = 0; }];
 }
 
@@ -225,7 +256,7 @@ static const CGFloat kValueLabelTouchOffset = 50;
 
 - (void)setLineWidth:(CGFloat)lineWidth;
 {
-    _lineWidth = lineWidth;
+    self.currentStyle.lineWidth = lineWidth;
     CGPoint currentCenter = self.saturationBrightnessIndicator.center;
     CGRect currentFrame = self.saturationBrightnessIndicator.frame;
     currentFrame.size.width = lineWidth;
