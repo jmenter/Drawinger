@@ -2,6 +2,7 @@
 #ifndef Extras_h
 #define Extras_h
 
+#import "CAGradientLayer+Extras.h"
 #import "CGExtras.h"
 #import "NSArray+Extras.h"
 #import "NSSet+Extras.h"
