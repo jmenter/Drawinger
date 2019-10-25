@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A1BBB3A2363738C00D6CC8F /* CAGradientLayer+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A1BBB392363738C00D6CC8F /* CAGradientLayer+Extras.m */; };
 		6387E4DF2089245900A9CC9E /* UIColor+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 6387E4DE2089245900A9CC9E /* UIColor+Extras.m */; };
 		6387E4E22089248E00A9CC9E /* UIImage+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 6387E4E12089248E00A9CC9E /* UIImage+Extras.m */; };
 		638EE7812360A78A00B9912D /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 638EE77F2360A78A00B9912D /* NSArray+Extras.m */; };
@@ -27,6 +28,8 @@
 
 /* Begin PBXFileReference section */
 		632BA2FC23610071009B07CB /* Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Extras.h; sourceTree = "<group>"; };
+		2A1BBB382363738C00D6CC8F /* CAGradientLayer+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAGradientLayer+Extras.h"; sourceTree = "<group>"; };
+		2A1BBB392363738C00D6CC8F /* CAGradientLayer+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CAGradientLayer+Extras.m"; sourceTree = "<group>"; };
 		6387E4DD2089245900A9CC9E /* UIColor+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extras.h"; sourceTree = "<group>"; };
 		6387E4DE2089245900A9CC9E /* UIColor+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extras.m"; sourceTree = "<group>"; };
 		6387E4E02089248E00A9CC9E /* UIImage+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extras.h"; sourceTree = "<group>"; };
@@ -88,6 +91,8 @@
 				6387E4E12089248E00A9CC9E /* UIImage+Extras.m */,
 				63AA096820894F9400829B03 /* UITouch+Extras.h */,
 				63AA096920894F9400829B03 /* UITouch+Extras.m */,
+				2A1BBB382363738C00D6CC8F /* CAGradientLayer+Extras.h */,
+				2A1BBB392363738C00D6CC8F /* CAGradientLayer+Extras.m */,
 			);
 			path = "Extra Categories";
 			sourceTree = "<group>";
@@ -203,6 +208,7 @@
 			files = (
 				638EE7872360AE6E00B9912D /* CGExtras.c in Sources */,
 				6387E4DF2089245900A9CC9E /* UIColor+Extras.m in Sources */,
+				2A1BBB3A2363738C00D6CC8F /* CAGradientLayer+Extras.m in Sources */,
 				63FDFCA720883AE000E1BD30 /* UIStylePickerView.m in Sources */,
 				63AA096A20894F9400829B03 /* UITouch+Extras.m in Sources */,
 				63FDFC912088367000E1BD30 /* ViewController.m in Sources */,
