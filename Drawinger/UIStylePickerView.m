@@ -108,6 +108,7 @@ static const CGFloat kValueLabelTouchOffset = 50;
     layer.masksToBounds = YES;
     return layer;
 }
+
 - (CAGradientLayer *)createSaturationLayer;
 {
     CAGradientLayer *layer = [self createMaskingGradientLayer];
