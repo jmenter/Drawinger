@@ -1,10 +1,6 @@
 
 #import "UIStylePickerView.h"
-#import "UIColor+Extras.h"
-#import "UIImage+Extras.h"
-#import "UITouch+Extras.h"
-#import "NSSet+Extras.h"
-#import "CGExtras.h"
+#import "Extras.h"
 
 typedef NS_ENUM(NSUInteger, TouchArea) {
     TouchAreaHue,
@@ -30,7 +26,6 @@ typedef NS_ENUM(NSUInteger, TouchArea) {
 @property (nonatomic) UILabel *valuesLabel;
 @property (nonatomic) TouchArea touchArea;
 @property (nonatomic, readwrite, nonnull) UIStyle *currentStyle;
-
 @end
 
 @implementation UIStylePickerView
@@ -51,7 +46,7 @@ static const CGFloat kValueLabelTouchOffset = 50;
     self.currentBrightness = 0.75;
     self.currentAlpha = 1;
 
-    self.currentStyle = [UIStyle styleWithColor:[UIColor colorWithHue:self.currentHue saturation:self.currentSaturation brightness:self.currentBrightness alpha:self.currentAlpha] lineWidth:5];
+    self.currentStyle = [UIStyle styleWithColor:self.currentColor lineWidth:5];
     self.saturationLayer = [self createSaturationLayer];
     self.brightnessLayer = [self createBrightnessLayer];
     self.hueLayer = [self createHueLayer];
@@ -243,7 +238,7 @@ static const CGFloat kValueLabelTouchOffset = 50;
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
     [self touchesMoved:touches withEvent:event];
-
+    self.currentStyle.color = self.currentColor;
     [self.stylePickerDelegate stylePickerView:self didPickStyle:self.currentStyle];
     [UIView animateWithDuration:0.2 animations:^{ self.valuesLabel.alpha = 0; }];
 }
