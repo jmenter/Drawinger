@@ -1,6 +1,7 @@
 
 @import UIKit;
-#import "UIStyle.h"
+
+@class UIStyle;
 
 @interface UIBezierPath (Extras)
 

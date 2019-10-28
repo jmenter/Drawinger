@@ -1,8 +1,7 @@
 
-#import "UIBezierPath+Extras.h"
-#import "UITouch+Extras.h"
-
 #import <objc/runtime.h>
+#import "UIStyle.h"
+#import "Extras.h"
 
 @implementation UIBezierPath (Extras)
 
