@@ -2,7 +2,7 @@
 #import "ViewController.h"
 #import "UIDrawingView.h"
 #import "UIStylePickerView.h"
-#import "CGExtras.h"
+#import "Extras.h"
 
 @interface ViewController()<UIStylePickerViewDelegate>
 

@@ -1,5 +1,5 @@
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import "UIStyle.h"
 
 @interface UIBezierPath (Extras)

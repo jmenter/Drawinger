@@ -3,9 +3,6 @@
 #import "CGExtras.h"
 
 @implementation UITouch (Extras)
-@dynamic identifier;
-@dynamic location;
-@dynamic previousLocation;
 
 - (nonnull NSString *)identifier;
 {

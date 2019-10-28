@@ -29,6 +29,7 @@
 /* Begin PBXFileReference section */
 		2A1BBB382363738C00D6CC8F /* CAGradientLayer+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAGradientLayer+Extras.h"; sourceTree = "<group>"; };
 		2A1BBB392363738C00D6CC8F /* CAGradientLayer+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CAGradientLayer+Extras.m"; sourceTree = "<group>"; };
+		632BA2FC23610071009B07CB /* Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Extras.h; sourceTree = "<group>"; };
 		6387E4DD2089245900A9CC9E /* UIColor+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extras.h"; sourceTree = "<group>"; };
 		6387E4DE2089245900A9CC9E /* UIColor+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extras.m"; sourceTree = "<group>"; };
 		6387E4E02089248E00A9CC9E /* UIImage+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extras.h"; sourceTree = "<group>"; };
@@ -75,22 +76,23 @@
 		63AA096B208959A000829B03 /* Extra Categories */ = {
 			isa = PBXGroup;
 			children = (
+				632BA2FC23610071009B07CB /* Extras.h */,
+				2A1BBB382363738C00D6CC8F /* CAGradientLayer+Extras.h */,
+				2A1BBB392363738C00D6CC8F /* CAGradientLayer+Extras.m */,
+				638EE7852360AE6E00B9912D /* CGExtras.h */,
+				638EE7862360AE6E00B9912D /* CGExtras.c */,
 				638EE7802360A78A00B9912D /* NSArray+Extras.h */,
 				638EE77F2360A78A00B9912D /* NSArray+Extras.m */,
 				638EE7822360A7CB00B9912D /* NSSet+Extras.h */,
 				638EE7832360A7CB00B9912D /* NSSet+Extras.m */,
+				63AA096520894F3400829B03 /* UIBezierPath+Extras.h */,
+				63AA096620894F3400829B03 /* UIBezierPath+Extras.m */,
 				6387E4DD2089245900A9CC9E /* UIColor+Extras.h */,
 				6387E4DE2089245900A9CC9E /* UIColor+Extras.m */,
 				6387E4E02089248E00A9CC9E /* UIImage+Extras.h */,
 				6387E4E12089248E00A9CC9E /* UIImage+Extras.m */,
-				63AA096520894F3400829B03 /* UIBezierPath+Extras.h */,
-				63AA096620894F3400829B03 /* UIBezierPath+Extras.m */,
 				63AA096820894F9400829B03 /* UITouch+Extras.h */,
 				63AA096920894F9400829B03 /* UITouch+Extras.m */,
-				638EE7852360AE6E00B9912D /* CGExtras.h */,
-				638EE7862360AE6E00B9912D /* CGExtras.c */,
-				2A1BBB382363738C00D6CC8F /* CAGradientLayer+Extras.h */,
-				2A1BBB392363738C00D6CC8F /* CAGradientLayer+Extras.m */,
 			);
 			path = "Extra Categories";
 			sourceTree = "<group>";

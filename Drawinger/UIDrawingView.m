@@ -1,9 +1,6 @@
 
 #import "UIDrawingView.h"
-#import "UIBezierPath+Extras.h"
-#import "UITouch+Extras.h"
-#import "NSSet+Extras.h"
-#import "NSArray+Extras.h"
+#import "Extras.h"
 
 @interface UIDrawingView()
 @property (nonatomic) NSMutableDictionary <NSString *, UIBezierPath *> *touchPaths;
