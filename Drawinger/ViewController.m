@@ -25,12 +25,12 @@
 - (IBAction)resetWasTapped:(id)sender;
 {
     [self.drawingView reset];
-    [self.drawingView applyStyle:self.colorPickerView.currentStyle];
+    self.drawingView.currentDrawingStyle = self.colorPickerView.currentStyle;
 }
 
-- (void)stylePickerView:(UIStylePickerView *)stylePickerView didPickStyle:(id)style;
+- (void)stylePickerViewDidPickStyle:(UIStylePickerView *)stylePickerView;
 {
-    [self.drawingView applyStyle:style];
+    self.drawingView.currentDrawingStyle = stylePickerView.currentStyle;
 }
 
 - (void)stylePickerView:(UIStylePickerView *)colorPickerView didRequestMove:(CGPoint)amount;

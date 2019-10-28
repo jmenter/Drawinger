@@ -1,18 +1,15 @@
 
 #import <UIKit/UIKit.h>
+#import "UIStyle.h"
 
 @interface UIBezierPath (Extras)
 
-@property (nonatomic, strong) UIColor *strokeColor;
+@property (nonatomic) UIColor *strokeColor;
 
-+ (UIBezierPath *)pathAtPoint:(CGPoint)point
-                  strokeColor:(UIColor *)strokeColor
-                 lineCapStyle:(CGLineCap)lineCapStyle
-                lineJoinStyle:(CGLineJoin)lineJoinStyle
-                    lineWidth:(CGFloat)lineWidth;
++ (UIBezierPath *)pathAtPoint:(CGPoint)point style:(UIStyle *)style;
 
 - (void)strokeWithCurrentStrokeColor;
 
-- (void)addTouchToPath:(UITouch *)touch;
+- (void)addTouch:(UITouch *)touch;
 
 @end

@@ -34,20 +34,10 @@
     return self;
 }
 
-- (void)applyStyle:(UIStyle *)style;
-{
-    self.drawingColor = style.color;
-    self.lineWidth = style.lineWidth;
-}
-
 - (void)reset;
 {
     self.touchPaths = NSMutableDictionary.new;
     self.drawingPaths = NSMutableArray.new;
-    self.drawingColor = UIColor.blackColor;
-    self.lineCapStyle = kCGLineCapRound;
-    self.lineJoinStyle = kCGLineJoinRound;
-    self.lineWidth = 2.f;
     self.drawingStoreImage = nil;
     self.drawingStoreImageView.image = nil;
     [self setNeedsDisplay];
@@ -62,10 +52,8 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
     [touches forEach:^(UITouch *touch) {
-        UIBezierPath *path = [UIBezierPath pathAtPoint:touch.location strokeColor:self.drawingColor
-                                          lineCapStyle:self.lineCapStyle lineJoinStyle:self.lineJoinStyle
-                                             lineWidth:self.lineWidth];
-        [path addTouchToPath:touch];
+        UIBezierPath *path = [UIBezierPath pathAtPoint:touch.location style:self.currentDrawingStyle];
+        [path addTouch:touch];
         self.touchPaths[touch.identifier] = path;
         [self.drawingPaths addObject:path];
     }];
@@ -74,7 +62,7 @@
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
-    [touches forEach:^(UITouch *touch) { [self.touchPaths[touch.identifier] addTouchToPath:touch]; }];
+    [touches forEach:^(UITouch *touch) { [self.touchPaths[touch.identifier] addTouch:touch]; }];
     [self setNeedsDisplay];
 }
 

@@ -5,6 +5,7 @@
 #import "UITouch+Extras.h"
 #import "NSSet+Extras.h"
 #import "CGExtras.h"
+#import "CAGradientLayer+Extras.h"
 
 typedef NS_ENUM(NSUInteger, TouchArea) {
     TouchAreaHue,
@@ -17,6 +18,7 @@ typedef NS_ENUM(NSUInteger, TouchArea) {
 @property (nonatomic) CGFloat currentSaturation;
 @property (nonatomic) CGFloat currentBrightness;
 @property (nonatomic) CGFloat currentAlpha;
+@property (nonatomic) CGFloat currentLineWidth;
 
 @property (nonatomic) CAGradientLayer *hueLayer;
 @property (nonatomic) CAGradientLayer *saturationLayer;
@@ -29,7 +31,6 @@ typedef NS_ENUM(NSUInteger, TouchArea) {
 
 @property (nonatomic) UILabel *valuesLabel;
 @property (nonatomic) TouchArea touchArea;
-@property (nonatomic, readwrite, nonnull) UIStyle *currentStyle;
 
 @end
 
@@ -50,18 +51,18 @@ static const CGFloat kValueLabelTouchOffset = 50;
     self.currentSaturation = 0.5;
     self.currentBrightness = 0.75;
     self.currentAlpha = 1;
-
-    self.currentStyle = [UIStyle styleWithColor:[UIColor colorWithHue:self.currentHue saturation:self.currentSaturation brightness:self.currentBrightness alpha:self.currentAlpha] lineWidth:5];
-    self.saturationLayer = [self createSaturationLayer];
-    self.brightnessLayer = [self createBrightnessLayer];
-    self.hueLayer = [self createHueLayer];
-    self.alphaLayer = [self createAlphaLayer];
-
+    self.currentLineWidth = 25;
+    
+    self.saturationLayer = CAGradientLayer.saturationLayer;
+    self.brightnessLayer = CAGradientLayer.brightnessLayer;
+    self.hueLayer = CAGradientLayer.hueLayer;
+    self.alphaLayer = CAGradientLayer.alphaLayer;
+    
     self.hueIndicator = [self createIndicatorView];
     self.alphaIndicator = [self createIndicatorView];
     self.saturationBrightnessIndicator = [self createSaturationBrightnessIndicator];
     self.valuesLabel = [self createValuesLabel];
-
+    
     [self addSubview:self.hueIndicator];
     [self addSubview:self.alphaIndicator];
     [self addSubview:self.saturationBrightnessIndicator];
@@ -72,49 +73,15 @@ static const CGFloat kValueLabelTouchOffset = 50;
     self.layer.shadowRadius = 3;
     self.layer.shadowOffset = CGSizeZero;
     self.contentMode = UIViewContentModeRedraw;
-
+    
     UIPinchGestureRecognizer *pinchGr = [UIPinchGestureRecognizer.alloc initWithTarget:self action:@selector(handlePinch:)];
     [self addGestureRecognizer:pinchGr];
-
+    
     UIPanGestureRecognizer *panGr = [UIPanGestureRecognizer.alloc initWithTarget:self action:@selector(handlePan:)];
     panGr.minimumNumberOfTouches = 2;
     [self addGestureRecognizer:panGr];
-
+    
     return self;
-}
-
-- (void)handlePan:(UIPanGestureRecognizer *)panGR;
-{
-    static CGPoint previousLocation;
-    if (panGR.state == UIGestureRecognizerStateBegan) {
-        previousLocation = [panGR locationInView:self];
-    } else if (panGR.state == UIGestureRecognizerStateChanged) {
-        CGPoint currentLocation = [panGR locationInView:self];
-        [self.stylePickerDelegate stylePickerView:self didRequestMove:CGPointSubtractPoints(currentLocation, previousLocation)];
-        previousLocation = currentLocation;
-    }
-}
-
-- (void)handlePinch:(UIPinchGestureRecognizer *)pinchGR;
-{
-    self.currentStyle.lineWidth *= pinchGR.scale;
-    self.currentStyle.lineWidth = (self.currentStyle.lineWidth < 0.1) ? 0.1 : (self.currentStyle.lineWidth > 80) ? 80 : self.currentStyle.lineWidth;
-    [self.stylePickerDelegate stylePickerView:self didPickStyle:self.currentStyle];
-}
-
-- (CAGradientLayer *)createMaskingGradientLayer;
-{
-    CAGradientLayer *layer = CAGradientLayer.layer;
-    layer.masksToBounds = YES;
-    return layer;
-}
-
-- (CAGradientLayer *)createSaturationLayer;
-{
-    CAGradientLayer *layer = [self createMaskingGradientLayer];
-    layer.startPoint = CGPointMake(0, 0);
-    layer.endPoint = CGPointMake(1, 0);
-    return layer;
 }
 
 - (UILabel *)createValuesLabel;
@@ -132,32 +99,6 @@ static const CGFloat kValueLabelTouchOffset = 50;
     label.textColor = [UIColor colorWithWhite:0.1 alpha:1.0];
     label.alpha = 0;
     return label;
-}
-
-- (CAGradientLayer *)createBrightnessLayer;
-{
-    CAGradientLayer *layer = [self createMaskingGradientLayer];
-    layer.colors = @[(id)[UIColor colorWithHue:0 saturation:0 brightness:1 alpha:1].CGColor,
-                     (id)[UIColor colorWithHue:0 saturation:0 brightness:0 alpha:1].CGColor];
-    return layer;
-}
-
-- (CAGradientLayer *)createHueLayer;
-{
-    CAGradientLayer *layer = [self createMaskingGradientLayer];
-    layer.colors = @[(id)[UIColor colorWithHue:0.0 saturation:1 brightness:1 alpha:1].CGColor,
-                     (id)[UIColor colorWithHue:0.2 saturation:1 brightness:1 alpha:1].CGColor,
-                     (id)[UIColor colorWithHue:0.4 saturation:1 brightness:1 alpha:1].CGColor,
-                     (id)[UIColor colorWithHue:0.6 saturation:1 brightness:1 alpha:1].CGColor,
-                     (id)[UIColor colorWithHue:0.8 saturation:1 brightness:1 alpha:1].CGColor,
-                     (id)[UIColor colorWithHue:1.0 saturation:1 brightness:1 alpha:1].CGColor];
-    return layer;
-}
-
-- (CAGradientLayer *)createAlphaLayer {
-    CAGradientLayer *layer = [self createMaskingGradientLayer];
-    layer.backgroundColor = UIColor.transparencyPattern.CGColor;
-    return layer;
 }
 
 - (UIView *)createIndicatorView;
@@ -190,6 +131,11 @@ static const CGFloat kValueLabelTouchOffset = 50;
     return view;
 }
 
+- (UIStyle *)currentStyle;
+{
+    return [UIStyle styleWithColor:self.currentColor lineWidth:self.currentLineWidth];
+}
+
 - (UIColor *)currentColor;
 {
     return [UIColor colorWithHue:self.currentHue saturation:self.currentSaturation brightness:self.currentBrightness alpha:self.currentAlpha];
@@ -212,7 +158,9 @@ static const CGFloat kValueLabelTouchOffset = 50;
         case TouchAreaHue: {
             clampedX = kHueBarWidth / 2.f;
             self.currentHue = clampedYNormalized;
-            self.hueIndicator.center = CGPointMake(kHueBarWidth / 2.f, clampedY);
+            [UIView animateWithDuration:0.1 animations:^{
+                self.hueIndicator.center = CGPointMake(kHueBarWidth / 2.f, clampedY);
+            }];
             [self setNeedsDisplay];
             self.valuesLabel.text = [NSString stringWithFormat:@"hue: %i°", (int)(self.currentHue * 360.f)];
             break;
@@ -220,7 +168,9 @@ static const CGFloat kValueLabelTouchOffset = 50;
         case TouchAreaAlpha: {
             clampedX = self.bounds.size.width - ( kHueBarWidth / 2.f);
             self.currentAlpha = clampedYNormalized;
-            self.alphaIndicator.center = CGPointMake(self.bounds.size.width - ( kHueBarWidth / 2.f), clampedY);
+            [UIView animateWithDuration:0.1 animations:^{
+                self.alphaIndicator.center = CGPointMake(self.bounds.size.width - ( kHueBarWidth / 2.f), clampedY);
+            }];
             self.valuesLabel.text = [NSString stringWithFormat:@"alpha: %i%%", (int)(self.currentAlpha * 100.f)];
             break;
         }
@@ -229,11 +179,11 @@ static const CGFloat kValueLabelTouchOffset = 50;
             clampedX = MIN(MAX(touches.anyObject.location.x, kHueBarWidth), self.bounds.size.width - kHueBarWidth);
             self.currentSaturation = (clampedX - kHueBarWidth) / (self.bounds.size.width - kHueBarWidth - kHueBarWidth);
             self.currentBrightness = 1.f - clampedYNormalized;
-            self.saturationBrightnessIndicator.center = CGPointMake(clampedX, clampedY);
+            [UIView animateWithDuration:0.1 animations:^{
+                self.saturationBrightnessIndicator.center = CGPointMake(clampedX, clampedY);
+            }];
             [self setNeedsDisplay];
-            self.valuesLabel.text = [NSString stringWithFormat:@"h: %i° • s: %i%%\nb: %i%% • a: %i%%",
-                                     (int)(self.currentHue * 360.f), (int)(self.currentSaturation * 100.f),
-                                     (int)(self.currentBrightness * 100.f),  (int)(self.currentAlpha * 100.f)];
+            self.valuesLabel.text = [NSString stringWithFormat:@"saturation: %i%%\nbrightness: %i%%", (int)(self.currentSaturation * 100.f), (int)(self.currentBrightness * 100.f)];
             break;
         }
     }
@@ -244,9 +194,28 @@ static const CGFloat kValueLabelTouchOffset = 50;
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
     [self touchesMoved:touches withEvent:event];
-
-    [self.stylePickerDelegate stylePickerView:self didPickStyle:self.currentStyle];
+    
+    [self.stylePickerDelegate stylePickerViewDidPickStyle:self];
     [UIView animateWithDuration:0.2 animations:^{ self.valuesLabel.alpha = 0; }];
+}
+
+- (void)handlePan:(UIPanGestureRecognizer *)panGR;
+{
+    static CGPoint previousLocation;
+    if (panGR.state == UIGestureRecognizerStateBegan) {
+        previousLocation = [panGR locationInView:self];
+    } else if (panGR.state == UIGestureRecognizerStateChanged) {
+        CGPoint currentLocation = [panGR locationInView:self];
+        [self.stylePickerDelegate stylePickerView:self didRequestMove:CGPointSubtractPoints(currentLocation, previousLocation)];
+        previousLocation = currentLocation;
+    }
+}
+
+- (void)handlePinch:(UIPinchGestureRecognizer *)pinchGR;
+{
+    self.currentLineWidth *= pinchGR.scale;
+    self.currentLineWidth = (self.currentLineWidth < 0.1) ? 0.1 : (self.currentLineWidth > 80) ? 80 : self.currentLineWidth;
+    [self.stylePickerDelegate stylePickerViewDidPickStyle:self];
 }
 
 - (void)layoutSubviews;
@@ -255,16 +224,18 @@ static const CGFloat kValueLabelTouchOffset = 50;
     [self alignIndicatorsWithValues];
 }
 
-- (void)setLineWidth:(CGFloat)lineWidth;
+- (void)setCurrentLineWidth:(CGFloat)lineWidth;
 {
-    self.currentStyle.lineWidth = lineWidth;
-    CGPoint currentCenter = self.saturationBrightnessIndicator.center;
-    CGRect currentFrame = self.saturationBrightnessIndicator.frame;
-    currentFrame.size.width = lineWidth;
-    currentFrame.size.height = lineWidth;
-    self.saturationBrightnessIndicator.frame = currentFrame;
-    self.saturationBrightnessIndicator.layer.cornerRadius = lineWidth / 2.f;
-    self.saturationBrightnessIndicator.center = currentCenter;
+    if (_currentLineWidth != lineWidth) {
+        _currentLineWidth = lineWidth;
+        CGPoint currentCenter = self.saturationBrightnessIndicator.center;
+        CGRect currentFrame = self.saturationBrightnessIndicator.frame;
+        currentFrame.size.width = lineWidth;
+        currentFrame.size.height = lineWidth;
+        self.saturationBrightnessIndicator.frame = currentFrame;
+        self.saturationBrightnessIndicator.layer.cornerRadius = lineWidth / 2.f;
+        self.saturationBrightnessIndicator.center = currentCenter;
+    }
 }
 
 - (void)alignIndicatorsWithValues;
@@ -284,30 +255,30 @@ static const CGFloat kValueLabelTouchOffset = 50;
 
 - (void)drawRect:(CGRect)rect;
 {
-    self.saturationLayer.colors = @[(id)[UIColor colorWithHue:self.currentHue saturation:0
-                                                   brightness:1 alpha:1].CGColor,
-                                    (id)[UIColor colorWithHue:self.currentHue saturation:1
-                                                   brightness:1 alpha:1].CGColor];
-    self.alphaLayer.colors = @[(id)[UIColor colorWithHue:self.currentHue saturation:self.currentSaturation
-                                              brightness:self.currentBrightness alpha:0].CGColor,
-                               (id)[UIColor colorWithHue:self.currentHue saturation:self.currentSaturation
-                                              brightness:self.currentBrightness alpha:1].CGColor];
+    CGFloat width = self.bounds.size.width;
+    CGFloat height = self.bounds.size.height;
+    
+    self.saturationLayer.colors = @[(id)[UIColor colorWithHue:self.currentHue saturation:0 brightness:1 alpha:1].CGColor,
+                                    (id)[UIColor colorWithHue:self.currentHue saturation:1 brightness:1 alpha:1].CGColor];
+    
+    self.alphaLayer.colors = @[(id)[self.currentColor colorWithAlphaComponent:0].CGColor,
+                               (id)[self.currentColor colorWithAlphaComponent:1].CGColor];
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    self.hueLayer.frame = CGRectMake(0, 0, kHueBarWidth, rect.size.height);
+    self.hueLayer.frame = CGRectMake(0, 0, kHueBarWidth, height);
     [self.hueLayer renderInContext:context];
     
     CGContextTranslateCTM(context, kHueBarWidth, 0);
-    self.brightnessLayer.frame = CGRectMake(0, 0, rect.size.width - kHueBarWidth, rect.size.height);
+    self.brightnessLayer.frame = CGRectMake(0, 0, width - kHueBarWidth, height);
     [self.brightnessLayer renderInContext:context];
     
     CGContextSetBlendMode(context, kCGBlendModeMultiply);
-    self.saturationLayer.frame = CGRectMake(0, 0, rect.size.width - kHueBarWidth, rect.size.height);
+    self.saturationLayer.frame = CGRectMake(0, 0, width - kHueBarWidth, height);
     [self.saturationLayer renderInContext:context];
     
-    CGContextTranslateCTM(context, rect.size.width - kHueBarWidth - kHueBarWidth, 0);
+    CGContextTranslateCTM(context, width - kHueBarWidth - kHueBarWidth, 0);
     CGContextSetBlendMode(context, kCGBlendModeNormal);
-    self.alphaLayer.frame = CGRectMake(0, 0, kHueBarWidth, rect.size.height);
+    self.alphaLayer.frame = CGRectMake(0, 0, kHueBarWidth, height);
     [self.alphaLayer renderInContext:context];
 }
 
