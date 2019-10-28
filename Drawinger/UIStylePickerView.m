@@ -1,11 +1,5 @@
 
 #import "UIStylePickerView.h"
-#import "UIColor+Extras.h"
-#import "UIImage+Extras.h"
-#import "UITouch+Extras.h"
-#import "NSSet+Extras.h"
-#import "CGExtras.h"
-#import "CAGradientLayer+Extras.h"
 #import "Extras.h"
 
 typedef NS_ENUM(NSUInteger, TouchArea) {
@@ -54,14 +48,12 @@ static const CGFloat kValueLabelTouchOffset = 50;
     self.currentSaturation = 0.5;
     self.currentBrightness = 0.75;
     self.currentAlpha = 1;
+    self.currentLineWidth = 20;
 
     self.saturationLayer = CAGradientLayer.saturationLayer;
     self.brightnessLayer = CAGradientLayer.brightnessLayer;
     self.hueLayer = CAGradientLayer.hueLayer;
     self.alphaLayer = CAGradientLayer.alphaLayer;
-    
-
-    self.currentStyle = [UIStyle styleWithColor:self.currentColor lineWidth:5];
 
     self.hueIndicator = [self createIndicatorView];
     self.alphaIndicator = [self createIndicatorView];

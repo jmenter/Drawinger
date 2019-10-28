@@ -5,7 +5,6 @@
 @class UIStylePickerView;
 
 @protocol UIStylePickerViewDelegate
-
 - (void)stylePickerViewDidPickStyle:(nonnull UIStylePickerView *)stylePickerView;
 - (void)stylePickerView:(nonnull UIStylePickerView *)stylePickerView
          didRequestMove:(CGPoint)amount;

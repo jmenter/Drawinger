@@ -37,6 +37,8 @@
     self.drawingPaths = NSMutableArray.new;
     self.drawingStoreImage = nil;
     self.drawingStoreImageView.image = nil;
+    self.currentDrawingStyle = UIStyle.new;
+    
     [self setNeedsDisplay];
 }
 
