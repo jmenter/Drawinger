@@ -27,7 +27,7 @@ typedef NS_ENUM(NSUInteger, TouchArea) {
 @property (nonatomic) UILabel *valuesLabel;
 @property (nonatomic) TouchArea touchArea;
 
-@property (nonatomic, readwrite, nonnull) UIStyle *currentStyle;
+@property (nonatomic, readwrite) UIStyle *currentStyle;
 
 @end
 

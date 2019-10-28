@@ -7,5 +7,6 @@
 @property (nonatomic) UIStyle *currentDrawingStyle;
 
 - (void)reset;
+- (void)resetWithDrawingStyle:(UIStyle *)style;
 
 @end

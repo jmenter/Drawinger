@@ -4,7 +4,7 @@
 
 @implementation UITouch (Extras)
 
-- (nonnull NSString *)identifier;
+- (NSString *)identifier;
 {
     return [NSString stringWithFormat:@"%p", self];
 }

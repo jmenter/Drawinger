@@ -15,7 +15,7 @@
 }
 
 
-+ (instancetype _Nonnull )styleWithColor:(UIColor *)color lineWidth:(CGFloat)lineWidth;
++ (instancetype)styleWithColor:(UIColor *)color lineWidth:(CGFloat)lineWidth;
 {
     UIStyle *style = UIStyle.new;
     style.color = color;
@@ -23,7 +23,7 @@
     return style;
 }
 
-+ (instancetype _Nonnull )styleWithColor:(UIColor *_Nonnull)color lineWidth:(CGFloat)lineWidth lineCap:(CGLineCap)lineCap lineJoin:(CGLineJoin)lineJoin;
++ (instancetype)styleWithColor:(UIColor *)color lineWidth:(CGFloat)lineWidth lineCap:(CGLineCap)lineCap lineJoin:(CGLineJoin)lineJoin;
 {
     UIStyle *style = [self styleWithColor:color lineWidth:lineWidth];
     style.lineCap = lineCap;

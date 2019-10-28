@@ -6,7 +6,7 @@
 - (void)forEach:(void (^)(id obj))block;
 {
     if (!block) return;
-    [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) { block(obj); }];
+    [self enumerateObjectsUsingBlock:^(id obj, BOOL *stop) { block(obj); }];
 }
 
 @end

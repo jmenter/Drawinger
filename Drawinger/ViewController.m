@@ -6,8 +6,8 @@
 
 @interface ViewController()<UIStylePickerViewDelegate>
 
-@property (nonatomic, nonnull) IBOutlet UIDrawingView *drawingView;
-@property (nonatomic, nonnull) IBOutlet UIStylePickerView *colorPickerView;
+@property (nonatomic) IBOutlet UIDrawingView *drawingView;
+@property (nonatomic) IBOutlet UIStylePickerView *colorPickerView;
 
 @end
 
@@ -24,8 +24,7 @@
 
 - (IBAction)resetWasTapped:(id)sender;
 {
-    [self.drawingView reset];
-    self.drawingView.currentDrawingStyle = self.colorPickerView.currentStyle;
+    [self.drawingView resetWithDrawingStyle:self.colorPickerView.currentStyle];
 }
 
 - (void)stylePickerViewDidPickStyle:(UIStylePickerView *)stylePickerView;

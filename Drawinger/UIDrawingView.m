@@ -33,12 +33,17 @@
 
 - (void)reset;
 {
+    [self resetWithDrawingStyle:UIStyle.new];
+}
+
+- (void)resetWithDrawingStyle:(UIStyle *)style;
+{
     self.touchPaths = NSMutableDictionary.new;
     self.drawingPaths = NSMutableArray.new;
     self.drawingStoreImage = nil;
     self.drawingStoreImageView.image = nil;
-    self.currentDrawingStyle = UIStyle.new;
-    
+    self.currentDrawingStyle = style;
+
     [self setNeedsDisplay];
 }
 

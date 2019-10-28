@@ -5,15 +5,15 @@
 @class UIStylePickerView;
 
 @protocol UIStylePickerViewDelegate
-- (void)stylePickerViewDidPickStyle:(nonnull UIStylePickerView *)stylePickerView;
-- (void)stylePickerView:(nonnull UIStylePickerView *)stylePickerView
+- (void)stylePickerViewDidPickStyle:(UIStylePickerView *)stylePickerView;
+- (void)stylePickerView:(UIStylePickerView *)stylePickerView
          didRequestMove:(CGPoint)amount;
 @end
 
 
 @interface UIStylePickerView : UIView
 
-@property (nonatomic, readonly, nonnull) UIStyle *currentStyle;
-@property (nonatomic, weak, nullable) IBOutlet id<UIStylePickerViewDelegate> stylePickerDelegate;
+@property (nonatomic, readonly) UIStyle *currentStyle;
+@property (nonatomic, weak) IBOutlet id<UIStylePickerViewDelegate> stylePickerDelegate;
 
 @end
