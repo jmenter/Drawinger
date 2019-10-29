@@ -209,9 +209,15 @@ static const CGFloat kValueLabelTouchOffset = 50;
 
 - (void)handlePinch:(UIPinchGestureRecognizer *)pinchGR;
 {
-    self.currentLineWidth *= pinchGR.scale;
+    static CGFloat initialLineWidth;
+    if (pinchGR.state == UIGestureRecognizerStateBegan) {
+        initialLineWidth = self.currentLineWidth;
+        
+    }
+    self.currentLineWidth = initialLineWidth * pinchGR.scale;
     self.currentLineWidth = (self.currentLineWidth < 0.1) ? 0.1 : (self.currentLineWidth > 80) ? 80 : self.currentLineWidth;
     [self.stylePickerDelegate stylePickerViewDidPickStyle:self];
+    [self setNeedsDisplay];
 }
 
 - (void)layoutSubviews;
