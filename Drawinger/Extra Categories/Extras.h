@@ -8,6 +8,7 @@
 #import "NSSet+Extras.h"
 #import "UIBezierPath+Extras.h"
 #import "UIColor+Extras.h"
+#import "UIGestureRecognizer+Extras.h"
 #import "UIImage+Extras.h"
 #import "UITouch+Extras.h"
 

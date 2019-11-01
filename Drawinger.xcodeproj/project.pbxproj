@@ -16,6 +16,7 @@
 		638EE78A2360BE8200B9912D /* UIStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 638EE7892360BE8200B9912D /* UIStyle.m */; };
 		63AA096720894F3400829B03 /* UIBezierPath+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AA096620894F3400829B03 /* UIBezierPath+Extras.m */; };
 		63AA096A20894F9400829B03 /* UITouch+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AA096920894F9400829B03 /* UITouch+Extras.m */; };
+		63FA2AE4236CEF18000930B1 /* UIGestureRecognizer+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FA2AE3236CEF18000930B1 /* UIGestureRecognizer+Extras.m */; };
 		63FDFC8E2088367000E1BD30 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFC8D2088367000E1BD30 /* AppDelegate.m */; };
 		63FDFC912088367000E1BD30 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFC902088367000E1BD30 /* ViewController.m */; };
 		63FDFC942088367000E1BD30 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63FDFC922088367000E1BD30 /* Main.storyboard */; };
@@ -46,6 +47,8 @@
 		63AA096620894F3400829B03 /* UIBezierPath+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+Extras.m"; sourceTree = "<group>"; };
 		63AA096820894F9400829B03 /* UITouch+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITouch+Extras.h"; sourceTree = "<group>"; };
 		63AA096920894F9400829B03 /* UITouch+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITouch+Extras.m"; sourceTree = "<group>"; };
+		63FA2AE2236CEF18000930B1 /* UIGestureRecognizer+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+Extras.h"; sourceTree = "<group>"; };
+		63FA2AE3236CEF18000930B1 /* UIGestureRecognizer+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+Extras.m"; sourceTree = "<group>"; };
 		63FDFC892088367000E1BD30 /* Drawinger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Drawinger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63FDFC8C2088367000E1BD30 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		63FDFC8D2088367000E1BD30 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -89,6 +92,8 @@
 				63AA096620894F3400829B03 /* UIBezierPath+Extras.m */,
 				6387E4DD2089245900A9CC9E /* UIColor+Extras.h */,
 				6387E4DE2089245900A9CC9E /* UIColor+Extras.m */,
+				63FA2AE2236CEF18000930B1 /* UIGestureRecognizer+Extras.h */,
+				63FA2AE3236CEF18000930B1 /* UIGestureRecognizer+Extras.m */,
 				6387E4E02089248E00A9CC9E /* UIImage+Extras.h */,
 				6387E4E12089248E00A9CC9E /* UIImage+Extras.m */,
 				63AA096820894F9400829B03 /* UITouch+Extras.h */,
@@ -162,7 +167,7 @@
 		63FDFC812088367000E1BD30 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = jeffmenter;
 				TargetAttributes = {
 					63FDFC882088367000E1BD30 = {
@@ -207,6 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				638EE7872360AE6E00B9912D /* CGExtras.c in Sources */,
+				63FA2AE4236CEF18000930B1 /* UIGestureRecognizer+Extras.m in Sources */,
 				6387E4DF2089245900A9CC9E /* UIColor+Extras.m in Sources */,
 				2A1BBB3A2363738C00D6CC8F /* CAGradientLayer+Extras.m in Sources */,
 				63FDFCA720883AE000E1BD30 /* UIStylePickerView.m in Sources */,
@@ -266,6 +272,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -322,6 +329,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;

@@ -190,7 +190,7 @@ static const CGFloat kValueLabelTouchOffset = 50;
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
-    [self touchesMoved:touches withEvent:event];    
+    [self touchesMoved:touches withEvent:event];
     [self.stylePickerDelegate stylePickerViewDidPickStyle:self];
     [UIView animateWithDuration:0.2 animations:^{ self.valuesLabel.alpha = 0; }];
 }
@@ -199,12 +199,10 @@ static const CGFloat kValueLabelTouchOffset = 50;
 {
     static CGPoint previousLocation;
     if (panGR.state == UIGestureRecognizerStateBegan) {
-        previousLocation = [panGR locationInView:self];
-    } else if (panGR.state == UIGestureRecognizerStateChanged) {
-        CGPoint currentLocation = [panGR locationInView:self];
-        [self.stylePickerDelegate stylePickerView:self didRequestMove:CGPointSubtractPoints(currentLocation, previousLocation)];
-        previousLocation = currentLocation;
+        previousLocation = panGR.location;
     }
+    CGPoint currentLocation = panGR.location;
+    [self.stylePickerDelegate stylePickerView:self didRequestMove:CGPointSubtractPoints(currentLocation, previousLocation)];
 }
 
 - (void)handlePinch:(UIPinchGestureRecognizer *)pinchGR;
@@ -212,10 +210,8 @@ static const CGFloat kValueLabelTouchOffset = 50;
     static CGFloat initialLineWidth;
     if (pinchGR.state == UIGestureRecognizerStateBegan) {
         initialLineWidth = self.currentLineWidth;
-        
     }
-    self.currentLineWidth = initialLineWidth * pinchGR.scale;
-    self.currentLineWidth = (self.currentLineWidth < 0.1) ? 0.1 : (self.currentLineWidth > 80) ? 80 : self.currentLineWidth;
+    self.currentLineWidth = CGFloatClamp(initialLineWidth * pinchGR.scale, 0.1, 80);
     [self.stylePickerDelegate stylePickerViewDidPickStyle:self];
     [self setNeedsDisplay];
 }

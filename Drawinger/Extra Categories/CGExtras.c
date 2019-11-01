@@ -16,3 +16,8 @@ CGPoint CGPointDivide(CGPoint point, CGFloat amount) {
 CGPoint CGPointQuantize(CGPoint point) {
     return CGPointMake((long)point.x, (long)point.y);
 }
+
+CGFloat CGFloatClamp(CGFloat value, CGFloat minimum, CGFloat maximum) {
+    return value < minimum ? minimum : value > maximum ? maximum : value;
+}
+
