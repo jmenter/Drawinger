@@ -3,6 +3,6 @@
 
 @interface UIColor (Extras)
 
-+ (UIColor *)transparencyPattern;
++ (instancetype)transparencyPattern;
 
 @end

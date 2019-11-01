@@ -4,9 +4,9 @@
 
 @implementation UIColor (Extras)
 
-+ (UIColor *)transparencyPattern;
++ (instancetype)transparencyPattern;
 {
-    return [UIColor colorWithPatternImage:UIImage.checkerboard];
+    return [self.class colorWithPatternImage:UIImage.checkerboard];
 }
 
 @end

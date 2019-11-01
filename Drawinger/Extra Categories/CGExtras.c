@@ -14,5 +14,5 @@ CGPoint CGPointDivide(CGPoint point, CGFloat amount) {
 }
 
 CGPoint CGPointQuantize(CGPoint point) {
-    return CGPointMake((int)point.x, (int)point.y);
+    return CGPointMake((long)point.x, (long)point.y);
 }
