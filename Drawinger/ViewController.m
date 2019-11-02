@@ -27,7 +27,7 @@
     [self.drawingView resetWithDrawingStyle:self.colorPickerView.currentStyle];
 }
 
-- (void)stylePickerViewDidPickStyle:(UIStylePickerView *)stylePickerView;
+- (void)stylePickerViewDidPickAStyle:(UIStylePickerView *)stylePickerView;
 {
     self.drawingView.currentDrawingStyle = stylePickerView.currentStyle;
 }

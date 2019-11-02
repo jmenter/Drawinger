@@ -14,7 +14,6 @@
     return self;
 }
 
-
 + (instancetype)styleWithColor:(UIColor *)color lineWidth:(CGFloat)lineWidth;
 {
     UIStyle *style = UIStyle.new;

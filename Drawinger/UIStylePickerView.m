@@ -81,6 +81,16 @@ static const CGFloat kValueLabelTouchOffset = 50;
     return self;
 }
 
+- (UIStyle *)currentStyle;
+{
+    return [UIStyle styleWithColor:self.currentColor lineWidth:self.currentLineWidth];
+}
+
+- (UIColor *)currentColor;
+{
+    return [UIColor colorWithHue:self.currentHue saturation:self.currentSaturation brightness:self.currentBrightness alpha:self.currentAlpha];
+}
+
 - (UILabel *)createValuesLabel;
 {
     UILabel *label = [UILabel.alloc initWithFrame:CGRectMake(0, 0, 100, 30)];
@@ -126,16 +136,6 @@ static const CGFloat kValueLabelTouchOffset = 50;
     view.userInteractionEnabled = NO;
     view.clipsToBounds = NO;
     return view;
-}
-
-- (UIStyle *)currentStyle;
-{
-    return [UIStyle styleWithColor:self.currentColor lineWidth:self.currentLineWidth];
-}
-
-- (UIColor *)currentColor;
-{
-    return [UIColor colorWithHue:self.currentHue saturation:self.currentSaturation brightness:self.currentBrightness alpha:self.currentAlpha];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
@@ -191,7 +191,7 @@ static const CGFloat kValueLabelTouchOffset = 50;
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
     [self touchesMoved:touches withEvent:event];
-    [self.stylePickerDelegate stylePickerViewDidPickStyle:self];
+    [self.stylePickerDelegate stylePickerViewDidPickAStyle:self];
     [UIView animateWithDuration:0.2 animations:^{ self.valuesLabel.alpha = 0; }];
 }
 
@@ -212,7 +212,7 @@ static const CGFloat kValueLabelTouchOffset = 50;
         initialLineWidth = self.currentLineWidth;
     }
     self.currentLineWidth = CGFloatClamp(initialLineWidth * pinchGR.scale, 0.1, 80);
-    [self.stylePickerDelegate stylePickerViewDidPickStyle:self];
+    [self.stylePickerDelegate stylePickerViewDidPickAStyle:self];
     [self setNeedsDisplay];
 }
 
