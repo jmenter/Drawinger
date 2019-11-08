@@ -10,7 +10,6 @@
          didRequestMove:(CGPoint)amount;
 @end
 
-
 @interface UIStylePickerView : UIView
 
 @property (nonatomic, readonly) UIStyle *currentStyle;
