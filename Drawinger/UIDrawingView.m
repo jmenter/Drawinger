@@ -50,7 +50,9 @@
 - (void)didMoveToSuperview;
 {
     [super didMoveToSuperview];
-    [self.superview insertSubview:self.drawingStoreImageView belowSubview:self];
+    if (![self.superview.subviews containsObject:self.drawingStoreImageView]) {
+        [self.superview insertSubview:self.drawingStoreImageView belowSubview:self];
+    }
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
