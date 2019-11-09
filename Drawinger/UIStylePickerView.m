@@ -42,19 +42,19 @@ static const CGFloat kValueLabelTouchOffset = 50;
 
 - (instancetype)commonInit;
 {
-    self.multipleTouchEnabled = NO;
+    self.multipleTouchEnabled = YES;
     self.userInteractionEnabled = YES;
     self.currentHue = 0;
     self.currentSaturation = 0.5;
     self.currentBrightness = 0.75;
     self.currentAlpha = 1;
     self.currentLineWidth = 20;
-
+    
     self.saturationLayer = CAGradientLayer.saturationLayer;
     self.brightnessLayer = CAGradientLayer.brightnessLayer;
     self.hueLayer = CAGradientLayer.hueLayer;
     self.alphaLayer = CAGradientLayer.alphaLayer;
-
+    
     self.hueIndicator = [self createIndicatorView];
     self.alphaIndicator = [self createIndicatorView];
     self.saturationBrightnessIndicator = [self createSaturationBrightnessIndicator];
@@ -140,6 +140,8 @@ static const CGFloat kValueLabelTouchOffset = 50;
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
+    if (touches.count > 1) { return; }
+    
     [UIView animateWithDuration:0.2 animations:^{ self.valuesLabel.alpha = 1; }];
     CGFloat xLocation = [touches.anyObject locationInView:self].x;
     self.touchArea = xLocation < kHueBarWidth ? TouchAreaHue : xLocation > self.bounds.size.width - kHueBarWidth ? TouchAreaAlpha : TouchAreaSaturationBrightness;
@@ -148,6 +150,8 @@ static const CGFloat kValueLabelTouchOffset = 50;
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
+    if (touches.count > 1) { return; }
+    
     CGFloat clampedX = 0;
     CGFloat clampedY = MIN(MAX([touches.anyObject locationInView:self].y, 0), self.bounds.size.height);
     CGFloat clampedYNormalized = clampedY / self.bounds.size.height;
@@ -190,6 +194,8 @@ static const CGFloat kValueLabelTouchOffset = 50;
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
+    if (touches.count > 1) { return; }
+    
     [self touchesMoved:touches withEvent:event];
     [self.stylePickerDelegate stylePickerViewDidPickAStyle:self];
     [UIView animateWithDuration:0.2 animations:^{ self.valuesLabel.alpha = 0; }];
