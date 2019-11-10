@@ -11,5 +11,6 @@
 #import "UIGestureRecognizer+Extras.h"
 #import "UIImage+Extras.h"
 #import "UITouch+Extras.h"
+#import "UIView+Extras.h"
 
 #endif /* Extras_h */

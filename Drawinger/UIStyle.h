@@ -11,7 +11,9 @@
 - (instancetype)init;
 
 + (instancetype)styleWithColor:(UIColor *)color lineWidth:(CGFloat)lineWidth;
-+ (instancetype)styleWithColor:(UIColor *)color lineWidth:(CGFloat)lineWidth lineCap:(CGLineCap)lineCap lineJoin:(CGLineJoin)lineJoin;
+
++ (instancetype)styleWithColor:(UIColor *)color lineWidth:(CGFloat)lineWidth
+                       lineCap:(CGLineCap)lineCap lineJoin:(CGLineJoin)lineJoin;
 
 @end
 

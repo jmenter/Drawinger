@@ -4,7 +4,7 @@
 
 @class UIStylePickerView;
 
-@protocol UIStylePickerViewDelegate
+@protocol UIStylePickerDelegate
 - (void)stylePickerViewDidPickAStyle:(UIStylePickerView *)stylePickerView;
 - (void)stylePickerView:(UIStylePickerView *)stylePickerView
          didRequestMove:(CGPoint)amount;
@@ -13,6 +13,6 @@
 @interface UIStylePickerView : UIView
 
 @property (nonatomic, readonly) UIStyle *currentStyle;
-@property (nonatomic, weak) IBOutlet id<UIStylePickerViewDelegate> stylePickerDelegate;
+@property (nonatomic, weak) IBOutlet id<UIStylePickerDelegate> stylePickerDelegate;
 
 @end

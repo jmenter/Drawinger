@@ -1,13 +1,16 @@
 
 #import "UIDrawingView.h"
+#import "UIStyle.h"
 #import "Extras.h"
 
-@interface UIDrawingView()
+@interface UIDrawingView (Private)
+
 @property (nonatomic) NSMutableDictionary <NSString *, UIBezierPath *> *touchPaths;
 @property (nonatomic) NSMutableArray <UIBezierPath *> *drawingPaths;
 @property (nonatomic) UIImage *drawingStoreImage;
 @property (nonatomic) UIImageView *drawingStoreImageView;
 @property (nonatomic) CGFloat maxDimension;
+
 @end
 
 @implementation UIDrawingView
@@ -55,6 +58,21 @@
     }
 }
 
+- (void)commitDrawingPaths;
+{
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.maxDimension, self.maxDimension), NO, 0);
+    [self.drawingStoreImage drawAtPoint:CGPointZero];
+    [self drawRect:self.bounds];
+    self.drawingStoreImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    self.drawingStoreImageView.image = self.drawingStoreImage;
+    [self.drawingPaths removeAllObjects];
+    [self setNeedsDisplay];
+}
+
+#pragma mark - UIResponder
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
     [touches forEach:^(UITouch *touch) {
@@ -80,18 +98,7 @@
     if (self.touchPaths.count == 0) [self commitDrawingPaths];
 }
 
-- (void)commitDrawingPaths;
-{
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.maxDimension, self.maxDimension), NO, 0);
-    [self.drawingStoreImage drawAtPoint:CGPointZero];
-    [self drawRect:self.bounds];
-    self.drawingStoreImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    self.drawingStoreImageView.image = self.drawingStoreImage;
-    [self.drawingPaths removeAllObjects];
-    [self setNeedsDisplay];
-}
+#pragma mark - UIView
 
 - (void)drawRect:(CGRect)rect {
     [self.drawingPaths forEach:^(UIBezierPath *path) { [path strokeWithCurrentStrokeColor]; }];

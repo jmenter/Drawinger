@@ -1,18 +1,19 @@
 
-#import "ViewController.h"
+#import "DrawingerViewController.h"
 #import "UIDrawingView.h"
 #import "UIStylePickerView.h"
 #import "Extras.h"
 
-@interface ViewController()<UIStylePickerViewDelegate>
+@interface DrawingerViewController (Private) <UIStylePickerDelegate>
 
 @property (nonatomic) IBOutlet UIDrawingView *drawingView;
 @property (nonatomic) IBOutlet UIStylePickerView *colorPickerView;
 
 @end
 
+@implementation DrawingerViewController
 
-@implementation ViewController
+#pragma mark - UIViewController
 
 - (BOOL)prefersStatusBarHidden; { return YES; }
 
@@ -26,6 +27,8 @@
 {
     [self.drawingView resetWithDrawingStyle:self.colorPickerView.currentStyle];
 }
+
+#pragma mark - UIStylePickerViewDelegate
 
 - (void)stylePickerViewDidPickAStyle:(UIStylePickerView *)stylePickerView;
 {

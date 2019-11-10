@@ -8,7 +8,9 @@ typedef NS_ENUM(NSUInteger, TouchArea) {
     TouchAreaAlpha,
 };
 
-@interface UIStylePickerView()
+
+@interface UIStylePickerView ()
+
 @property (nonatomic) CGFloat currentHue;
 @property (nonatomic) CGFloat currentSaturation;
 @property (nonatomic) CGFloat currentBrightness;
@@ -27,8 +29,6 @@ typedef NS_ENUM(NSUInteger, TouchArea) {
 @property (nonatomic) UILabel *valuesLabel;
 @property (nonatomic) TouchArea touchArea;
 
-@property (nonatomic, readwrite) UIStyle *currentStyle;
-
 @end
 
 @implementation UIStylePickerView
@@ -42,70 +42,58 @@ static const CGFloat kValueLabelTouchOffset = 50;
 
 - (instancetype)commonInit;
 {
-    self.multipleTouchEnabled = YES;
-    self.userInteractionEnabled = YES;
-    self.currentHue = 0;
-    self.currentSaturation = 0.5;
-    self.currentBrightness = 0.75;
-    self.currentAlpha = 1;
-    self.currentLineWidth = 20;
-    
-    self.saturationLayer = CAGradientLayer.saturationLayer;
-    self.brightnessLayer = CAGradientLayer.brightnessLayer;
-    self.hueLayer = CAGradientLayer.hueLayer;
-    self.alphaLayer = CAGradientLayer.alphaLayer;
-    
-    self.hueIndicator = [self createIndicatorView];
-    self.alphaIndicator = [self createIndicatorView];
-    self.saturationBrightnessIndicator = [self createSaturationBrightnessIndicator];
-    self.valuesLabel = [self createValuesLabel];
+    [self configureDefaults];
+    [self initializeViewsAndLayers];
     
     [self addSubview:self.hueIndicator];
     [self addSubview:self.alphaIndicator];
     [self addSubview:self.saturationBrightnessIndicator];
     [self addSubview:self.valuesLabel];
     
-    self.layer.shadowColor = UIColor.blackColor.CGColor;
-    self.layer.shadowOpacity = 1;
-    self.layer.shadowRadius = 3;
-    self.layer.shadowOffset = CGSizeZero;
-    self.contentMode = UIViewContentModeRedraw;
-    
-    UIPinchGestureRecognizer *pinchGr = [UIPinchGestureRecognizer.alloc initWithTarget:self action:@selector(handlePinch:)];
-    [self addGestureRecognizer:pinchGr];
-    
-    UIPanGestureRecognizer *panGr = [UIPanGestureRecognizer.alloc initWithTarget:self action:@selector(handlePan:)];
-    panGr.minimumNumberOfTouches = 2;
-    [self addGestureRecognizer:panGr];
+    [self addGestureRecognizers];
     
     return self;
 }
 
-- (UIStyle *)currentStyle;
+- (void)configureDefaults;
 {
-    return [UIStyle styleWithColor:self.currentColor lineWidth:self.currentLineWidth];
+    self.currentHue = 0;
+    self.currentSaturation = 0.5;
+    self.currentBrightness = 0.75;
+    self.currentAlpha = 1;
+    self.currentLineWidth = 20;
+
+    self.layer.shadowColor = UIColor.blackColor.CGColor;
+    self.layer.shadowOpacity = 1;
+    self.layer.shadowRadius = 3;
+    self.layer.shadowOffset = CGSizeZero;
+
+    self.contentMode = UIViewContentModeRedraw;
+    self.multipleTouchEnabled = YES;
+    self.userInteractionEnabled = YES;
 }
 
-- (UIColor *)currentColor;
+- (void)initializeViewsAndLayers;
 {
-    return [UIColor colorWithHue:self.currentHue saturation:self.currentSaturation brightness:self.currentBrightness alpha:self.currentAlpha];
+    self.saturationLayer = CAGradientLayer.saturationLayer;
+    self.brightnessLayer = CAGradientLayer.brightnessLayer;
+    self.hueLayer = CAGradientLayer.hueLayer;
+    self.alphaLayer = CAGradientLayer.alphaLayer;
+
+    self.hueIndicator = [self createIndicatorView];
+    self.alphaIndicator = [self createIndicatorView];
+    self.saturationBrightnessIndicator = [self createSaturationBrightnessIndicator];
+    self.valuesLabel = [self createValuesLabel];
 }
 
-- (UILabel *)createValuesLabel;
+- (void)addGestureRecognizers;
 {
-    UILabel *label = [UILabel.alloc initWithFrame:CGRectMake(0, 0, 100, 30)];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont boldSystemFontOfSize:10];
-    label.numberOfLines = 0;
-    label.layer.cornerRadius = 4;
-    label.layer.masksToBounds = YES;
-    label.layer.shadowColor = UIColor.blackColor.CGColor;
-    label.layer.shadowOffset = CGSizeZero;
-    label.layer.shadowRadius = 3;
-    label.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
-    label.textColor = [UIColor colorWithWhite:0.1 alpha:1.0];
-    label.alpha = 0;
-    return label;
+    UIPinchGestureRecognizer *pinchGr = [UIPinchGestureRecognizer.alloc initWithTarget:self action:@selector(handlePinch:)];
+    [self addGestureRecognizer:pinchGr];
+
+    UIPanGestureRecognizer *panGr = [UIPanGestureRecognizer.alloc initWithTarget:self action:@selector(handlePan:)];
+    panGr.minimumNumberOfTouches = 2;
+    [self addGestureRecognizer:panGr];
 }
 
 - (UIView *)createIndicatorView;
@@ -138,67 +126,21 @@ static const CGFloat kValueLabelTouchOffset = 50;
     return view;
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+- (UILabel *)createValuesLabel;
 {
-    if (touches.count > 1) { return; }
-    
-    [UIView animateWithDuration:0.2 animations:^{ self.valuesLabel.alpha = 1; }];
-    CGFloat xLocation = [touches.anyObject locationInView:self].x;
-    self.touchArea = xLocation < kHueBarWidth ? TouchAreaHue : xLocation > self.bounds.size.width - kHueBarWidth ? TouchAreaAlpha : TouchAreaSaturationBrightness;
-    [self touchesMoved:touches withEvent:event];
-}
-
-- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
-{
-    if (touches.count > 1) { return; }
-    
-    CGFloat clampedX = 0;
-    CGFloat clampedY = MIN(MAX([touches.anyObject locationInView:self].y, 0), self.bounds.size.height);
-    CGFloat clampedYNormalized = clampedY / self.bounds.size.height;
-    switch (self.touchArea) {
-        case TouchAreaHue: {
-            clampedX = kHueBarWidth / 2.f;
-            self.currentHue = clampedYNormalized;
-            [UIView animateWithDuration:0.1 animations:^{
-                self.hueIndicator.center = CGPointMake(kHueBarWidth / 2.f, clampedY);
-            }];
-            [self setNeedsDisplay];
-            self.valuesLabel.text = [NSString stringWithFormat:@"hue: %i°", (int)(self.currentHue * 360.f)];
-            break;
-        }
-        case TouchAreaAlpha: {
-            clampedX = self.bounds.size.width - ( kHueBarWidth / 2.f);
-            self.currentAlpha = clampedYNormalized;
-            [UIView animateWithDuration:0.1 animations:^{
-                self.alphaIndicator.center = CGPointMake(self.bounds.size.width - ( kHueBarWidth / 2.f), clampedY);
-            }];
-            self.valuesLabel.text = [NSString stringWithFormat:@"alpha: %i%%", (int)(self.currentAlpha * 100.f)];
-            break;
-        }
-        case TouchAreaSaturationBrightness:
-        default: {
-            clampedX = MIN(MAX(touches.anyObject.location.x, kHueBarWidth), self.bounds.size.width - kHueBarWidth);
-            self.currentSaturation = (clampedX - kHueBarWidth) / (self.bounds.size.width - kHueBarWidth - kHueBarWidth);
-            self.currentBrightness = 1.f - clampedYNormalized;
-            [UIView animateWithDuration:0.1 animations:^{
-                self.saturationBrightnessIndicator.center = CGPointMake(clampedX, clampedY);
-            }];
-            [self setNeedsDisplay];
-            self.valuesLabel.text = [NSString stringWithFormat:@"saturation: %i%%\nbrightness: %i%%", (int)(self.currentSaturation * 100.f), (int)(self.currentBrightness * 100.f)];
-            break;
-        }
-    }
-    self.valuesLabel.center = CGPointMake(clampedX, clampedY - kValueLabelTouchOffset);
-    [self configureSaturationBrightnessIndicator];
-}
-
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
-{
-    if (touches.count > 1) { return; }
-    
-    [self touchesMoved:touches withEvent:event];
-    [self.stylePickerDelegate stylePickerViewDidPickAStyle:self];
-    [UIView animateWithDuration:0.2 animations:^{ self.valuesLabel.alpha = 0; }];
+    UILabel *label = [UILabel.alloc initWithFrame:CGRectMake(0, 0, 100, 30)];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont boldSystemFontOfSize:10];
+    label.numberOfLines = 0;
+    label.layer.cornerRadius = 4;
+    label.layer.masksToBounds = YES;
+    label.layer.shadowColor = UIColor.blackColor.CGColor;
+    label.layer.shadowOffset = CGSizeZero;
+    label.layer.shadowRadius = 3;
+    label.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
+    label.textColor = [UIColor colorWithWhite:0.1 alpha:1.0];
+    label.alpha = 0;
+    return label;
 }
 
 - (void)handlePan:(UIPanGestureRecognizer *)panGR;
@@ -222,10 +164,15 @@ static const CGFloat kValueLabelTouchOffset = 50;
     [self setNeedsDisplay];
 }
 
-- (void)layoutSubviews;
+- (UIStyle *)currentStyle;
 {
-    [super layoutSubviews];
-    [self alignIndicatorsWithValues];
+    return [UIStyle styleWithColor:self.currentColor lineWidth:self.currentLineWidth];
+}
+
+- (UIColor *)currentColor;
+{
+    return [UIColor colorWithHue:self.currentHue saturation:self.currentSaturation
+                      brightness:self.currentBrightness alpha:self.currentAlpha];
 }
 
 - (void)setCurrentLineWidth:(CGFloat)lineWidth;
@@ -255,6 +202,108 @@ static const CGFloat kValueLabelTouchOffset = 50;
 {
     self.saturationBrightnessIndicator.backgroundColor = self.currentColor;
     self.saturationBrightnessIndicator.layer.shadowColor = [UIColor colorWithWhite:1.f - self.currentBrightness alpha:1.0].CGColor;
+}
+
+#pragma mark - UIResponder
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+{
+    if (touches.count > 1) { return; }
+
+    [self.valuesLabel fadeIn];
+    CGFloat xLocation = [touches.anyObject locationInView:self].x;
+    self.touchArea = xLocation < kHueBarWidth ? TouchAreaHue : xLocation > self.bounds.size.width - kHueBarWidth ? TouchAreaAlpha : TouchAreaSaturationBrightness;
+    [self touchesMoved:touches withEvent:event];
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+{
+    if (touches.count > 1) { return; }
+    
+    CGFloat clampedX = 0;
+    CGFloat clampedY = MIN(MAX([touches.anyObject locationInView:self].y, 0), self.bounds.size.height);
+    CGFloat value = clampedY / self.bounds.size.height;
+    switch (self.touchArea) {
+        case TouchAreaHue: {
+            clampedX = kHueBarWidth / 2.f;
+            [self handleHueAreaTouch:clampedY value:value];
+            break;
+        }
+        case TouchAreaAlpha: {
+            clampedX = self.bounds.size.width - ( kHueBarWidth / 2.f);
+            [self handleAlphaAreaTouch:clampedY value:value];
+            break;
+        }
+        case TouchAreaSaturationBrightness:
+        default: {
+            clampedX = MIN(MAX(touches.anyObject.location.x, kHueBarWidth), self.bounds.size.width - kHueBarWidth);
+            [self handleSaturationAreaTouch:clampedX clampedY:clampedY value:value];
+            break;
+        }
+    }
+    self.valuesLabel.center = CGPointMake(clampedX, clampedY - kValueLabelTouchOffset);
+    [self configureSaturationBrightnessIndicator];
+    [self setNeedsDisplay];
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+{
+    if (touches.count > 1) { return; }
+    
+    [self touchesMoved:touches withEvent:event];
+    [self.stylePickerDelegate stylePickerViewDidPickAStyle:self];
+    [self.valuesLabel fadeOut];
+}
+
+- (void)handleHueAreaTouch:(CGFloat)clampedY value:(CGFloat)value;
+{
+    self.currentHue = value;
+    [UIView animateWithDuration:0.1 animations:^{
+        self.hueIndicator.center = CGPointMake(kHueBarWidth / 2.f, clampedY);
+    }];
+    self.valuesLabel.text = self.currentHueDescription;
+}
+
+- (void)handleAlphaAreaTouch:(CGFloat)clampedY value:(CGFloat)value;
+{
+    self.currentAlpha = value;
+    [UIView animateWithDuration:0.1 animations:^{
+        self.alphaIndicator.center = CGPointMake(self.bounds.size.width - ( kHueBarWidth / 2.f), clampedY);
+    }];
+    self.valuesLabel.text = self.currentAlphaDescription;
+}
+
+- (void)handleSaturationAreaTouch:(CGFloat)clampedX clampedY:(CGFloat)clampedY value:(CGFloat)value;
+{
+    self.currentSaturation = (clampedX - kHueBarWidth) / (self.bounds.size.width - kHueBarWidth - kHueBarWidth);
+    self.currentBrightness = 1.f - value;
+    [UIView animateWithDuration:0.1 animations:^{
+        self.saturationBrightnessIndicator.center = CGPointMake(clampedX, clampedY);
+    }];
+    self.valuesLabel.text = self.currentSaturationDescription;
+}
+
+- (NSString *)currentHueDescription;
+{
+    return [NSString stringWithFormat:@"hue: %i°", (int)(self.currentHue * 360.f)];
+}
+
+- (NSString *)currentAlphaDescription;
+{
+    return [NSString stringWithFormat:@"alpha: %i%%", (int)(self.currentAlpha * 100.f)];
+}
+
+- (NSString *)currentSaturationDescription;
+{
+    return [NSString stringWithFormat:@"saturation: %i%%\nbrightness: %i%%", (int)(self.currentSaturation * 100.f), (int)(self.currentBrightness * 100.f)];
+}
+
+#pragma mark - UIView
+
+- (void)layoutSubviews;
+{
+    [super layoutSubviews];
+    [self alignIndicatorsWithValues];
 }
 
 - (void)drawRect:(CGRect)rect;

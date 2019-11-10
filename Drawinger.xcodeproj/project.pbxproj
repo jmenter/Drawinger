@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2A1BBB3A2363738C00D6CC8F /* CAGradientLayer+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A1BBB392363738C00D6CC8F /* CAGradientLayer+Extras.m */; };
+		633CE4B223788E4B00135E3E /* UIView+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 633CE4B123788E4B00135E3E /* UIView+Extras.m */; };
 		6387E4DF2089245900A9CC9E /* UIColor+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 6387E4DE2089245900A9CC9E /* UIColor+Extras.m */; };
 		6387E4E22089248E00A9CC9E /* UIImage+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 6387E4E12089248E00A9CC9E /* UIImage+Extras.m */; };
 		638EE7812360A78A00B9912D /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 638EE77F2360A78A00B9912D /* NSArray+Extras.m */; };
@@ -18,7 +19,7 @@
 		63AA096A20894F9400829B03 /* UITouch+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AA096920894F9400829B03 /* UITouch+Extras.m */; };
 		63FA2AE4236CEF18000930B1 /* UIGestureRecognizer+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FA2AE3236CEF18000930B1 /* UIGestureRecognizer+Extras.m */; };
 		63FDFC8E2088367000E1BD30 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFC8D2088367000E1BD30 /* AppDelegate.m */; };
-		63FDFC912088367000E1BD30 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFC902088367000E1BD30 /* ViewController.m */; };
+		63FDFC912088367000E1BD30 /* DrawingerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FDFC902088367000E1BD30 /* DrawingerViewController.m */; };
 		63FDFC942088367000E1BD30 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63FDFC922088367000E1BD30 /* Main.storyboard */; };
 		63FDFC962088367300E1BD30 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63FDFC952088367300E1BD30 /* Assets.xcassets */; };
 		63FDFC992088367300E1BD30 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63FDFC972088367300E1BD30 /* LaunchScreen.storyboard */; };
@@ -31,6 +32,8 @@
 		2A1BBB382363738C00D6CC8F /* CAGradientLayer+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAGradientLayer+Extras.h"; sourceTree = "<group>"; };
 		2A1BBB392363738C00D6CC8F /* CAGradientLayer+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CAGradientLayer+Extras.m"; sourceTree = "<group>"; };
 		632BA2FC23610071009B07CB /* Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Extras.h; sourceTree = "<group>"; };
+		633CE4B023788E4B00135E3E /* UIView+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Extras.h"; sourceTree = "<group>"; };
+		633CE4B123788E4B00135E3E /* UIView+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extras.m"; sourceTree = "<group>"; };
 		6387E4DD2089245900A9CC9E /* UIColor+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extras.h"; sourceTree = "<group>"; };
 		6387E4DE2089245900A9CC9E /* UIColor+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extras.m"; sourceTree = "<group>"; };
 		6387E4E02089248E00A9CC9E /* UIImage+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extras.h"; sourceTree = "<group>"; };
@@ -52,8 +55,8 @@
 		63FDFC892088367000E1BD30 /* Drawinger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Drawinger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63FDFC8C2088367000E1BD30 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		63FDFC8D2088367000E1BD30 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		63FDFC8F2088367000E1BD30 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		63FDFC902088367000E1BD30 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		63FDFC8F2088367000E1BD30 /* DrawingerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrawingerViewController.h; sourceTree = "<group>"; };
+		63FDFC902088367000E1BD30 /* DrawingerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DrawingerViewController.m; sourceTree = "<group>"; };
 		63FDFC932088367000E1BD30 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		63FDFC952088367300E1BD30 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63FDFC982088367300E1BD30 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -98,6 +101,8 @@
 				6387E4E12089248E00A9CC9E /* UIImage+Extras.m */,
 				63AA096820894F9400829B03 /* UITouch+Extras.h */,
 				63AA096920894F9400829B03 /* UITouch+Extras.m */,
+				633CE4B023788E4B00135E3E /* UIView+Extras.h */,
+				633CE4B123788E4B00135E3E /* UIView+Extras.m */,
 			);
 			path = "Extra Categories";
 			sourceTree = "<group>";
@@ -123,8 +128,8 @@
 			children = (
 				63FDFC8C2088367000E1BD30 /* AppDelegate.h */,
 				63FDFC8D2088367000E1BD30 /* AppDelegate.m */,
-				63FDFC8F2088367000E1BD30 /* ViewController.h */,
-				63FDFC902088367000E1BD30 /* ViewController.m */,
+				63FDFC8F2088367000E1BD30 /* DrawingerViewController.h */,
+				63FDFC902088367000E1BD30 /* DrawingerViewController.m */,
 				63FDFCA2208836A000E1BD30 /* UIDrawingView.h */,
 				63FDFCA3208836A000E1BD30 /* UIDrawingView.m */,
 				63FDFCA520883AE000E1BD30 /* UIStylePickerView.h */,
@@ -216,8 +221,9 @@
 				6387E4DF2089245900A9CC9E /* UIColor+Extras.m in Sources */,
 				2A1BBB3A2363738C00D6CC8F /* CAGradientLayer+Extras.m in Sources */,
 				63FDFCA720883AE000E1BD30 /* UIStylePickerView.m in Sources */,
+				633CE4B223788E4B00135E3E /* UIView+Extras.m in Sources */,
 				63AA096A20894F9400829B03 /* UITouch+Extras.m in Sources */,
-				63FDFC912088367000E1BD30 /* ViewController.m in Sources */,
+				63FDFC912088367000E1BD30 /* DrawingerViewController.m in Sources */,
 				6387E4E22089248E00A9CC9E /* UIImage+Extras.m in Sources */,
 				638EE7812360A78A00B9912D /* NSArray+Extras.m in Sources */,
 				63FDFC9C2088367300E1BD30 /* main.m in Sources */,
@@ -363,6 +369,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H8KMXW4VV4;
 				INFOPLIST_FILE = Drawinger/Info.plist;
@@ -372,6 +379,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jeffmenter.Drawinger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -380,6 +388,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H8KMXW4VV4;
 				INFOPLIST_FILE = Drawinger/Info.plist;
@@ -389,6 +398,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jeffmenter.Drawinger;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
