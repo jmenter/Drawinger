@@ -4,7 +4,7 @@
 #import "UIStylePickerView.h"
 #import "Extras.h"
 
-@interface DrawingerViewController (Private) <UIStylePickerDelegate>
+@interface DrawingerViewController () <UIStylePickerDelegate>
 
 @property (nonatomic) IBOutlet UIDrawingView *drawingView;
 @property (nonatomic) IBOutlet UIStylePickerView *colorPickerView;

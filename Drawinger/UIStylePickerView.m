@@ -1,5 +1,6 @@
 
 #import "UIStylePickerView.h"
+#import "UIStyle.h"
 #import "Extras.h"
 
 typedef NS_ENUM(NSUInteger, TouchArea) {

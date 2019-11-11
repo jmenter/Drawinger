@@ -1,7 +1,7 @@
 
 @import UIKit;
-#import "UIStyle.h"
 
+@class UIStyle;
 @class UIStylePickerView;
 
 @protocol UIStylePickerDelegate

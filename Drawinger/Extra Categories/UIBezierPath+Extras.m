@@ -17,7 +17,7 @@
     return objc_getAssociatedObject(self, @selector(strokeColor));
 }
 
-+ (UIBezierPath *)pathAtPoint:(CGPoint)point style:(UIStyle *)style;
++ (UIBezierPath *)newPathAtPoint:(CGPoint)point style:(UIStyle *)style;
 {
     UIBezierPath *path = UIBezierPath.new;
     path.lineWidth = style.lineWidth;
@@ -35,7 +35,7 @@
     [self stroke];
 }
 
-- (void)addTouch:(UITouch *)touch;
+- (void)addCurveFromTouch:(UITouch *)touch;
 {
     [self addQuadCurveToPoint:touch.halfPreviousLocation controlPoint:touch.previousLocation];
 }

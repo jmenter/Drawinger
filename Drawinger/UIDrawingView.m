@@ -3,7 +3,7 @@
 #import "UIStyle.h"
 #import "Extras.h"
 
-@interface UIDrawingView (Private)
+@interface UIDrawingView ()
 
 @property (nonatomic) NSMutableDictionary <NSString *, UIBezierPath *> *touchPaths;
 @property (nonatomic) NSMutableArray <UIBezierPath *> *drawingPaths;
@@ -76,8 +76,8 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
     [touches forEach:^(UITouch *touch) {
-        UIBezierPath *path = [UIBezierPath pathAtPoint:touch.location style:self.currentDrawingStyle];
-        [path addTouch:touch];
+        UIBezierPath *path = [UIBezierPath newPathAtPoint:touch.location style:self.currentDrawingStyle];
+        [path addCurveFromTouch:touch];
         self.touchPaths[touch.identifier] = path;
         [self.drawingPaths addObject:path];
     }];
@@ -86,7 +86,7 @@
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 {
-    [touches forEach:^(UITouch *touch) { [self.touchPaths[touch.identifier] addTouch:touch]; }];
+    [touches forEach:^(UITouch *touch) { [self.touchPaths[touch.identifier] addCurveFromTouch:touch]; }];
     [self setNeedsDisplay];
 }
 
@@ -95,7 +95,9 @@
     [self touchesMoved:touches withEvent:event];
     [touches forEach:^(UITouch *touch) { self.touchPaths[touch.identifier] = nil; }];
 
-    if (self.touchPaths.count == 0) [self commitDrawingPaths];
+    if (self.touchPaths.count == 0) {
+        [self commitDrawingPaths];
+    }
 }
 
 #pragma mark - UIView

@@ -7,9 +7,9 @@
 
 @property (nonatomic) UIColor *strokeColor;
 
-+ (UIBezierPath *)pathAtPoint:(CGPoint)point style:(UIStyle *)style;
++ (UIBezierPath *)newPathAtPoint:(CGPoint)point style:(UIStyle *)style;
 
 - (void)strokeWithCurrentStrokeColor;
-- (void)addTouch:(UITouch *)touch;
+- (void)addCurveFromTouch:(UITouch *)touch;
 
 @end
